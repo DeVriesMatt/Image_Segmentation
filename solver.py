@@ -290,6 +290,7 @@ class Solver(object):
 			JS = JS/length
 			DC = DC/length
 			unet_score = JS + DC
+			best_epoch = 50
 
 
 			f = open(os.path.join(self.result_path,'result.csv'), 'a', encoding='utf-8', newline='')
