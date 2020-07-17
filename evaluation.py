@@ -3,7 +3,7 @@ import torch
 # SR : Segmentation Result
 # GT : Ground Truth
 
-def get_accuracy(SR,GT,threshold=0.5):
+def get_accuracy(SR, GT, threshold=0.5):
     SR = SR > threshold
     GT = GT == torch.max(GT)
     corr = torch.sum(SR==GT)
@@ -12,7 +12,7 @@ def get_accuracy(SR,GT,threshold=0.5):
 
     return acc
 
-def get_sensitivity(SR,GT,threshold=0.5):
+def get_sensitivity(SR, GT, threshold=0.5):
     # Sensitivity == Recall
     SR = SR > threshold
     GT = GT == torch.max(GT)
@@ -26,7 +26,7 @@ def get_sensitivity(SR,GT,threshold=0.5):
     
     return SE
 
-def get_specificity(SR,GT,threshold=0.5):
+def get_specificity(SR, GT, threshold=0.5):
     SR = SR > threshold
     GT = GT == torch.max(GT)
 

@@ -4,6 +4,31 @@ import random
 import shutil
 from shutil import copyfile
 from misc import printProgressBar
+import urllib.request
+
+
+DATA_RAW_DIR = "./data"
+EXAMPLE_SLIDES_ZIP = DATA_RAW_DIR + "/IOSTAR.zip"
+EXAMPLE_SLIDES_DIR = DATA_RAW_DIR + "/IOSTAR"
+PROCESSED_DIR = "./data/processed/IOSTAR"
+
+
+def download_slide_images():
+    """
+    Download the archived example slide images.
+    """
+    if not os.path.exists(EXAMPLE_SLIDES_ZIP):
+        if not os.path.exists(DATA_RAW_DIR):
+            os.makedirs(DATA_RAW_DIR)
+        print('Downloading dataset')
+        url = "https://www.dropbox.com/s/hgl7k529nf8gh8i/example_slides.zip?dl=1"
+        u = urllib.request.urlopen(url)
+        data = u.read()
+        u.close()
+        with open(EXAMPLE_SLIDES_ZIP, "wb") as f:
+            f.write(data)
+    else:
+        print('Example slides already found')
 
 
 def rm_mkdir(dir_path):
@@ -12,6 +37,7 @@ def rm_mkdir(dir_path):
         print('Remove path - %s'%dir_path)
     os.makedirs(dir_path)
     print('Create path - %s'%dir_path)
+
 
 def main(config):
 
@@ -27,11 +53,8 @@ def main(config):
     GT_list = []
 
     for filename in filenames:
-        ext = os.path.splitext(filename)[-1]
-        if ext =='.jpg':
-            filename = filename.split('_')[-1][:-len('.jpg')]
-            data_list.append('ISIC_'+filename+'.jpg')
-            GT_list.append('ISIC_'+filename+'_segmentation.png')
+        data_list.append(filename)
+        GT_list.append(filename)
 
     num_total = len(data_list)
     num_train = int((config.train_ratio/(config.train_ratio+config.valid_ratio+config.test_ratio))*num_total)
@@ -86,7 +109,10 @@ def main(config):
 
         printProgressBar(i + 1, num_test, prefix = 'Producing test set:', suffix = 'Complete', length = 50)
 
+
 if __name__ == '__main__':
+    download_slide_images()
+
     parser = argparse.ArgumentParser()
 
     
@@ -96,8 +122,8 @@ if __name__ == '__main__':
     parser.add_argument('--test_ratio', type=float, default=0.2)
 
     # data path
-    parser.add_argument('--origin_data_path', type=str, default='../ISIC/dataset/ISIC2018_Task1-2_Training_Input')
-    parser.add_argument('--origin_GT_path', type=str, default='../ISIC/dataset/ISIC2018_Task1_Training_GroundTruth')
+    parser.add_argument('--origin_data_path', type=str, default='./data/IOSTAR/image')
+    parser.add_argument('--origin_GT_path', type=str, default='./data/IOSTAR/GT')
     
     parser.add_argument('--train_path', type=str, default='./dataset/train/')
     parser.add_argument('--train_GT_path', type=str, default='./dataset/train_GT/')

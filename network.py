@@ -3,6 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn import init
 
+
 def init_weights(net, init_type='normal', gain=0.02):
     def init_func(m):
         classname = m.__class__.__name__
@@ -26,6 +27,7 @@ def init_weights(net, init_type='normal', gain=0.02):
     print('initialize network with %s' % init_type)
     net.apply(init_func)
 
+
 class conv_block(nn.Module):
     def __init__(self,ch_in,ch_out):
         super(conv_block,self).__init__()
@@ -38,10 +40,10 @@ class conv_block(nn.Module):
             nn.ReLU(inplace=True)
         )
 
-
     def forward(self,x):
         x = self.conv(x)
         return x
+
 
 class up_conv(nn.Module):
     def __init__(self,ch_in,ch_out):
@@ -180,6 +182,8 @@ class U_Net(nn.Module):
 
         # decoding + concat path
         d5 = self.Up5(x5)
+        print(x4.shape)
+        print(x4.shape)
         d5 = torch.cat((x4,d5),dim=1)
         
         d5 = self.Up_conv5(d5)

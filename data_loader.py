@@ -8,8 +8,9 @@ from torchvision import transforms as T
 from torchvision.transforms import functional as F
 from PIL import Image
 
+
 class ImageFolder(data.Dataset):
-	def __init__(self, root,image_size=224,mode='train',augmentation_prob=0.4):
+	def __init__(self, root, image_size=1024, mode='train', augmentation_prob=0.4):
 		"""Initializes image paths and preprocessing module."""
 		self.root = root
 		
@@ -18,15 +19,17 @@ class ImageFolder(data.Dataset):
 		self.image_paths = list(map(lambda x: os.path.join(root, x), os.listdir(root)))
 		self.image_size = image_size
 		self.mode = mode
-		self.RotationDegree = [0,90,180,270]
+		self.RotationDegree = [0, 90, 180, 270]
 		self.augmentation_prob = augmentation_prob
 		print("image count in {} path :{}".format(self.mode,len(self.image_paths)))
 
 	def __getitem__(self, index):
 		"""Reads an image from a file and preprocesses it and returns."""
+
 		image_path = self.image_paths[index]
-		filename = image_path.split('_')[-1][:-len(".jpg")]
-		GT_path = self.GT_paths + 'ISIC_' + filename + '_segmentation.png'
+		# filename = image_path.split('_')[-1][:-len(".jpg")]
+		filename = image_path[-9:]
+		GT_path = self.GT_paths + filename
 
 		image = Image.open(image_path)
 		GT = Image.open(GT_path)
@@ -35,37 +38,38 @@ class ImageFolder(data.Dataset):
 
 		Transform = []
 
-		ResizeRange = random.randint(300,320)
-		Transform.append(T.Resize((int(ResizeRange*aspect_ratio),ResizeRange)))
+		ResizeRange = random.randint(300, 320)
+		Transform.append(T.Resize((int(ResizeRange*aspect_ratio))))
 		p_transform = random.random()
 
 		if (self.mode == 'train') and p_transform <= self.augmentation_prob:
-			RotationDegree = random.randint(0,3)
+			RotationDegree = 2  # random.randint(0, 3)
 			RotationDegree = self.RotationDegree[RotationDegree]
 			if (RotationDegree == 90) or (RotationDegree == 270):
 				aspect_ratio = 1/aspect_ratio
+			print(RotationDegree)
 
-			Transform.append(T.RandomRotation((RotationDegree,RotationDegree)))
+			Transform.append(T.RandomRotation((RotationDegree)))  # Only 1 argument
 						
-			RotationRange = random.randint(-10,10)
-			Transform.append(T.RandomRotation((RotationRange,RotationRange)))
-			CropRange = random.randint(250,270)
-			Transform.append(T.CenterCrop((int(CropRange*aspect_ratio),CropRange)))
+			RotationRange = 10  # random.randint(0,20)
+			# Transform.append(T.RandomRotation((RotationRange)))  # Only 1 argument
+			CropRange = 260  # random.randint(250,270)
+			Transform.append(T.CenterCrop((int(CropRange*aspect_ratio))))
 			Transform = T.Compose(Transform)
 			
 			image = Transform(image)
 			GT = Transform(GT)
 
-			ShiftRange_left = random.randint(0,20)
-			ShiftRange_upper = random.randint(0,20)
-			ShiftRange_right = image.size[0] - random.randint(0,20)
-			ShiftRange_lower = image.size[1] - random.randint(0,20)
+			ShiftRange_left = 10  # random.randint(0,20)
+			ShiftRange_upper = 10  # random.randint(0,20)
+			ShiftRange_right = image.size[0] - 10  # random.randint(0,20)
+			ShiftRange_lower = image.size[1] - 10  # random.randint(0,20)
 			image = image.crop(box=(ShiftRange_left,ShiftRange_upper,ShiftRange_right,ShiftRange_lower))
 			GT = GT.crop(box=(ShiftRange_left,ShiftRange_upper,ShiftRange_right,ShiftRange_lower))
 
-			if random.random() < 0.5:
-				image = F.hflip(image)
-				GT = F.hflip(GT)
+			# if random.random() < 0.5:
+			# 	image = F.hflip(image)
+			# 	GT = F.hflip(GT)
 
 			if random.random() < 0.5:
 				image = F.vflip(image)
@@ -77,8 +81,7 @@ class ImageFolder(data.Dataset):
 
 			Transform =[]
 
-
-		Transform.append(T.Resize((int(256*aspect_ratio)-int(256*aspect_ratio)%16,256)))
+		Transform.append(T.Resize((int(256*aspect_ratio)-int(256*aspect_ratio)%16)))
 		Transform.append(T.ToTensor())
 		Transform = T.Compose(Transform)
 		
@@ -93,6 +96,7 @@ class ImageFolder(data.Dataset):
 	def __len__(self):
 		"""Returns the total number of font files."""
 		return len(self.image_paths)
+
 
 def get_loader(image_path, image_size, batch_size, num_workers=2, mode='train',augmentation_prob=0.4):
 	"""Builds and returns Dataloader."""
