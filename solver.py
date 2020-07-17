@@ -87,7 +87,7 @@ class Solver(object):
 
 	def update_lr(self, g_lr, d_lr):
 		for param_group in self.optimizer.param_groups:
-			param_group['lr'] = lr
+			param_group['lr'] = self.lr
 
 	def reset_grad(self):
 		"""Zero the gradient buffers."""
