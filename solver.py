@@ -252,7 +252,7 @@ class Solver(object):
 					
 			#===================================== Test ====================================#
 			del self.unet
-			del best_unet
+			# del best_unet
 			self.build_model()
 			self.unet.load_state_dict(torch.load(unet_path))
 			
