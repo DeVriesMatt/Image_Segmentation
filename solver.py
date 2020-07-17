@@ -143,9 +143,11 @@ class Solver(object):
 
 					images = images.to(self.device)
 					GT = GT.to(self.device)
+					print(GT)
 
 					# SR : Segmentation Result
 					SR = self.unet(images)
+					print(SR)
 					SR_probs = F.sigmoid(SR)
 					SR_flat = SR_probs.view(SR_probs.size(0),-1)
 
