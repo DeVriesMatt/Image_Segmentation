@@ -47,7 +47,7 @@ class ImageFolder(data.Dataset):
 			RotationDegree = self.RotationDegree[RotationDegree]
 			if (RotationDegree == 90) or (RotationDegree == 270):
 				aspect_ratio = 1/aspect_ratio
-			print(RotationDegree)
+			# print(RotationDegree)
 
 			Transform.append(T.RandomRotation((RotationDegree)))  # Only 1 argument
 						

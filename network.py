@@ -182,8 +182,8 @@ class U_Net(nn.Module):
 
         # decoding + concat path
         d5 = self.Up5(x5)
-        print(x4.shape)
-        print(x4.shape)
+        # print(x4.shape)
+        # print(x4.shape)
         d5 = torch.cat((x4,d5),dim=1)
         
         d5 = self.Up_conv5(d5)
