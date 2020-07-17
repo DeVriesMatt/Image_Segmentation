@@ -243,12 +243,12 @@ class Solver(object):
 
 
 				# Save Best U-Net model
-				if unet_score > best_unet_score:
-					best_unet_score = unet_score
-					best_epoch = epoch
-					best_unet = self.unet.state_dict()
-					print('Best %s model score : %.4f'%(self.model_type,best_unet_score))
-					torch.save(best_unet,unet_path)
+				# if unet_score > best_unet_score:
+				# 	best_unet_score = unet_score
+				# 	best_epoch = epoch
+			best_unet = self.unet.state_dict()
+			print('Best %s model score : %.4f'%(self.model_type,best_unet_score))
+			torch.save(best_unet,unet_path)
 					
 			#===================================== Test ====================================#
 			del self.unet
