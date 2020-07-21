@@ -122,7 +122,7 @@ if __name__ == '__main__':
     parser.add_argument('--test_ratio', type=float, default=0.2)
 
     # data path
-    parser.add_argument('--origin_data_path', type=str, default='./data/IOSTAR/image')
+    parser.add_argument('--origin_data_path', type=str, default='./data/IOSTAR/GT')
     parser.add_argument('--origin_GT_path', type=str, default='./data/IOSTAR/GT')
     
     parser.add_argument('--train_path', type=str, default='./dataset/train_GT/')
