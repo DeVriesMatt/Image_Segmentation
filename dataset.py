@@ -125,11 +125,11 @@ if __name__ == '__main__':
     parser.add_argument('--origin_data_path', type=str, default='./data/IOSTAR/image')
     parser.add_argument('--origin_GT_path', type=str, default='./data/IOSTAR/GT')
     
-    parser.add_argument('--train_path', type=str, default='./dataset/train/')
+    parser.add_argument('--train_path', type=str, default='./dataset/train_GT/')
     parser.add_argument('--train_GT_path', type=str, default='./dataset/train_GT/')
-    parser.add_argument('--valid_path', type=str, default='./dataset/valid/')
+    parser.add_argument('--valid_path', type=str, default='./dataset/valid_GT/')
     parser.add_argument('--valid_GT_path', type=str, default='./dataset/valid_GT/')
-    parser.add_argument('--test_path', type=str, default='./dataset/test/')
+    parser.add_argument('--test_path', type=str, default='./dataset/test_GT/')
     parser.add_argument('--test_GT_path', type=str, default='./dataset/test_GT/')
 
     config = parser.parse_args()

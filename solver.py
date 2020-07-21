@@ -246,7 +246,7 @@ class Solver(object):
 
 				# Save Best U-Net model
 				# if unet_score > best_unet_score:
-				# 	best_unet_score = unet_score
+			best_unet_score = unet_score
 				# 	best_epoch = epoch
 			best_unet = self.unet.state_dict()
 			print('Best %s model score : %.4f'%(self.model_type,best_unet_score))
@@ -291,7 +291,7 @@ class Solver(object):
 			F1 = F1/length
 			JS = JS/length
 			DC = DC/length
-			unet_score = JS + DC
+			final_unet_score = JS + DC
 			best_epoch = 50
 
 
