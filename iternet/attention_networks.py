@@ -402,15 +402,15 @@ class AttUNetForIter(nn.Module):
         x4 = self.Conv4(x4)
 
         x5 = self.Maxpool(x4)
-        x5 = self.Conv5(x5)
+        # x5 = self.Conv5(x5)
+        #
+        # # decoding + concat path
+        # d5 = self.Up5(x5)
+        # x4 = self.Att5(g=d5, x=x4)
+        # d5 = torch.cat((x4, d5), dim=1)
+        # d5 = self.Up_conv5(d5)
 
-        # decoding + concat path
-        d5 = self.Up5(x5)
-        x4 = self.Att5(g=d5, x=x4)
-        d5 = torch.cat((x4, d5), dim=1)
-        d5 = self.Up_conv5(d5)
-
-        d4 = self.Up4(d5)
+        d4 = self.Up4(x4)
         x3 = self.Att4(g=d4, x=x3)
         d4 = torch.cat((x3, d4), dim=1)
         d4 = self.Up_conv4(d4)
