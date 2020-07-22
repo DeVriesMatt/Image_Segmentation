@@ -10,7 +10,7 @@ from PIL import Image
 
 
 class ImageFolder(data.Dataset):
-	def __init__(self, root, image_size=1024, mode='train', augmentation_prob=0.4):
+	def __init__(self, root, image_size=128, mode='train', augmentation_prob=0.4):   # TODO: change image size for patch
 		"""Initializes image paths and preprocessing module."""
 		self.root = root
 		
