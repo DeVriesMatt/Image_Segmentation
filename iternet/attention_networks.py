@@ -368,11 +368,11 @@ class AttUNetForIter(nn.Module):
         self.Conv2 = conv_block(ch_in=64, ch_out=128)
         self.Conv3 = conv_block(ch_in=128, ch_out=256)
         self.Conv4 = conv_block(ch_in=256, ch_out=512)
-        self.Conv5 = conv_block(ch_in=512, ch_out=1024)
+        # self.Conv5 = conv_block(ch_in=512, ch_out=1024)
 
-        self.Up5 = up_conv(ch_in=1024, ch_out=512)
-        self.Att5 = Attention_block(F_g=512, F_l=512, F_int=256)
-        self.Up_conv5 = conv_block(ch_in=1024, ch_out=512)
+        # self.Up5 = up_conv(ch_in=1024, ch_out=512)
+        # self.Att5 = Attention_block(F_g=512, F_l=512, F_int=256)
+        # self.Up_conv5 = conv_block(ch_in=1024, ch_out=512)
 
         self.Up4 = up_conv(ch_in=512, ch_out=256)
         self.Att4 = Attention_block(F_g=256, F_l=256, F_int=128)
