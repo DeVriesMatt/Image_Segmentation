@@ -122,15 +122,15 @@ if __name__ == '__main__':
     parser.add_argument('--test_ratio', type=float, default=0.2)
 
     # data path
-    parser.add_argument('--origin_data_path', type=str, default='./data/IOSTAR/GT')
-    parser.add_argument('--origin_GT_path', type=str, default='./data/IOSTAR/GT')
+    parser.add_argument('--origin_data_path', type=str, default='./processed/IOSTAR/train/image/patch_128/images')
+    parser.add_argument('--origin_GT_path', type=str, default='./processed/IOSTAR/train/GT/patch_128/images')
     
-    parser.add_argument('--train_path', type=str, default='./dataset/train_GT/')
-    parser.add_argument('--train_GT_path', type=str, default='./dataset/train_GT/')
-    parser.add_argument('--valid_path', type=str, default='./dataset/valid_GT/')
-    parser.add_argument('--valid_GT_path', type=str, default='./dataset/valid_GT/')
-    parser.add_argument('--test_path', type=str, default='./dataset/test_GT/')
-    parser.add_argument('--test_GT_path', type=str, default='./dataset/test_GT/')
+    parser.add_argument('--train_path', type=str, default='./processed/IOSTAR/train/image/patch_128/images')
+    parser.add_argument('--train_GT_path', type=str, default='./processed/IOSTAR/train/GT/patch_128/images')
+    parser.add_argument('--valid_path', type=str, default='./processed/IOSTAR/validation/image/patch_128/images')
+    parser.add_argument('--valid_GT_path', type=str, default='./processed/IOSTAR/validation/GT/patch_128/images')
+    parser.add_argument('--test_path', type=str, default='./processed/IOSTAR/test/image/patch_128/images')
+    parser.add_argument('--test_GT_path', type=str, default='./processed/IOSTAR/test/GT/patch_128/images')
 
     config = parser.parse_args()
     print(config)
