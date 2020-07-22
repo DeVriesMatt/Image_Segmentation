@@ -103,6 +103,7 @@ class Solver(object):
 		GT_flat = GT.view(-1)
 
 		acc = GT_flat.data.cpu()==(SR_flat.data.cpu()>0.5)
+		return acc
 
 	def tensor2img(self,x):
 		img = (x[:,0,:,:]>x[:,1,:,:]).float()
@@ -154,9 +155,11 @@ class Solver(object):
 					SR = self.unet(images)
 					# print(SR)
 					SR_probs = F.sigmoid(SR)
+					# print(SR_probs.shape)
 					SR_flat = SR_probs.view(SR_probs.size(0),-1)
+					# print(GT.size(0))
 
-					GT_flat = GT.view(GT.size(0),-1)
+					GT_flat = GT[:,:1,:,:].view(GT.size(0),-1)   # TODO: Changed for image patches added "[:,:1,:,:]"
 					loss = self.criterion(SR_flat,GT_flat)
 					epoch_loss += loss.item()
 

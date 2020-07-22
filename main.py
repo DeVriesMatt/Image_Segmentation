@@ -69,7 +69,7 @@ if __name__ == '__main__':
 
     
     # model hyper-parameters
-    parser.add_argument('--image_size', type=int, default=1024)
+    parser.add_argument('--image_size', type=int, default=128)  # TODO: change for image patches
     parser.add_argument('--t', type=int, default=3, help='t for Recurrent step of R2U_Net or R2AttU_Net')
     
     # training hyper-parameters
