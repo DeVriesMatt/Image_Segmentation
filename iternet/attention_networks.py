@@ -364,28 +364,28 @@ class AttUNetForIter(nn.Module):
 
         self.Maxpool = nn.MaxPool2d(kernel_size=2, stride=2)
 
-        self.Conv1 = conv_block(ch_in=img_ch, ch_out=64)
-        self.Conv2 = conv_block(ch_in=64, ch_out=128)
-        self.Conv3 = conv_block(ch_in=128, ch_out=256)
-        self.Conv4 = conv_block(ch_in=256, ch_out=512)
-        self.Conv5 = conv_block(ch_in=512, ch_out=1024)
+        self.Conv1 = conv_block(ch_in=img_ch, ch_out=32)
+        self.Conv2 = conv_block(ch_in=32, ch_out=64)
+        self.Conv3 = conv_block(ch_in=64, ch_out=128)
+        self.Conv4 = conv_block(ch_in=128, ch_out=256)
+        self.Conv5 = conv_block(ch_in=256, ch_out=512)
 
-        self.Up5 = up_conv(ch_in=1024, ch_out=512)
-        self.Att5 = Attention_block(F_g=512, F_l=512, F_int=256)
-        self.Up_conv5 = conv_block(ch_in=1024, ch_out=512)
+        self.Up5 = up_conv(ch_in=512, ch_out=256)
+        self.Att5 = Attention_block(F_g=256, F_l=256, F_int=128)
+        self.Up_conv5 = conv_block(ch_in=512, ch_out=256)
 
-        self.Up4 = up_conv(ch_in=512, ch_out=256)
-        self.Att4 = Attention_block(F_g=256, F_l=256, F_int=128)
-        self.Up_conv4 = conv_block(ch_in=512, ch_out=256)
+        self.Up4 = up_conv(ch_in=256, ch_out=128)
+        self.Att4 = Attention_block(F_g=128, F_l=128, F_int=64)
+        self.Up_conv4 = conv_block(ch_in=256, ch_out=128)
 
-        self.Up3 = up_conv(ch_in=256, ch_out=128)
-        self.Att3 = Attention_block(F_g=128, F_l=128, F_int=64)
-        self.Up_conv3 = conv_block(ch_in=256, ch_out=128)
+        self.Up3 = up_conv(ch_in=128, ch_out=64)
+        self.Att3 = Attention_block(F_g=64, F_l=64, F_int=32)
+        self.Up_conv3 = conv_block(ch_in=128, ch_out=64)
 
-        self.Up2 = up_conv(ch_in=128, ch_out=64)
-        self.Att2 = Attention_block(F_g=64, F_l=64, F_int=32)
-        self.Up_conv2 = conv_block(ch_in=128, ch_out=64)
-        self.Up_conv1 = conv_block(ch_in=64, ch_out=32)
+        self.Up2 = up_conv(ch_in=64, ch_out=32)
+        self.Att2 = Attention_block(F_g=32, F_l=32, F_int=16)
+        self.Up_conv2 = conv_block(ch_in=64, ch_out=32)
+        # self.Up_conv1 = conv_block(ch_in=64, ch_out=32)
 
         self.Conv_1x1 = nn.Conv2d(32, output_ch, kernel_size=1, stride=1, padding=0)
 
@@ -425,7 +425,7 @@ class AttUNetForIter(nn.Module):
         x1 = self.Att2(g=d2, x=x1)
         d2 = torch.cat((x1, d2), dim=1)
         d2 = self.Up_conv2(d2)
-        d2 = self.Up_conv1(d2)
+        # d2 = self.Up_conv1(d2)
 
         d1 = self.Conv_1x1(d2)
 
