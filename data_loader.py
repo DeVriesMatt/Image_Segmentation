@@ -39,7 +39,7 @@ class ImageFolder(data.Dataset):
 		Transform = []
 
 		ResizeRange = random.randint(300, 320)
-		# Transform.append(T.Resize((int(ResizeRange*aspect_ratio))))
+		Transform.append(T.Resize((int(ResizeRange*aspect_ratio))))
 		p_transform = random.random()
 
 		if (self.mode == 'train') and p_transform <= self.augmentation_prob:
@@ -81,7 +81,7 @@ class ImageFolder(data.Dataset):
 
 			Transform =[]
 
-		# Transform.append(T.Resize((int(256*aspect_ratio)-int(256*aspect_ratio)%16)))
+		Transform.append(T.Resize((int(256*aspect_ratio)-int(256*aspect_ratio)%16)))
 		Transform.append(T.ToTensor())
 		Transform = T.Compose(Transform)
 		
