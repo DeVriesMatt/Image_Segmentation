@@ -5,6 +5,7 @@ from data_loader import get_loader
 from torch.backends import cudnn
 import random
 
+
 def main(config):
     cudnn.benchmark = True
     if config.model_type not in ['U_Net','R2U_Net','AttU_Net','R2AttU_Net', 'Iternet']:
