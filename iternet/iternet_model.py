@@ -6,7 +6,7 @@ import torch
 
 from .unet_parts import *
 
-from .attention_networks import AttUNetForIter
+from .attention_networks import AttUNetForIter, R2UNetForIter
 
 
 class UNet(nn.Module):
@@ -115,3 +115,27 @@ class AttUIternet(nn.Module):
             _, x2, logits = self.model_miniunet[i](x)
 
         return logits
+
+
+class R2UItenet(nn.Module):
+    def __init__(self, n_channels, n_classes, out_channels=32, iterations=3):
+        super(R2UItenet, self).__init__()
+        self.n_channels = n_channels
+        self.n_classes = n_classes
+        self.iterations = iterations
+
+        # define the network UNet layer
+        self.model_unet = R2UNetForIter(3, 1)
+
+        # define the network MiniUNet layers
+        self.model_miniunet = ModuleList(MiniUNet(
+            n_channels=out_channels*2, n_classes=n_classes, out_channels=out_channels) for i in range(iterations))
+
+    def forward(self, x):
+        x1, x2, logits = self.model_unet(x)
+        for i in range(self.iterations):
+            x = torch.cat([x1, x2], dim=1)
+            _, x2, logits = self.model_miniunet[i](x)
+
+        return logits
+

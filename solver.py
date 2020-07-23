@@ -9,7 +9,7 @@ from torch.autograd import Variable
 import torch.nn.functional as F
 from evaluation import *
 from network import U_Net, R2U_Net, AttU_Net, R2AttU_Net
-from iternet.iternet_model import Iternet, AttUIternet
+from iternet.iternet_model import Iternet, AttUIternet, R2UItenet
 import csv
 
 
@@ -68,6 +68,8 @@ class Solver(object):
 			self.unet = Iternet(n_channels=3, n_classes=1)
 		elif self.model_type == 'AttUIternet':
 			self.unet = AttUIternet(n_channels=3, n_classes=1)
+		elif self.model_type == 'R2UItenet':
+			self.unet = R2UItenet(n_channels=3, n_classes=1, t=self.t)
 
 		self.optimizer = optim.Adam(list(self.unet.parameters()),
 									  self.lr, [self.beta1, self.beta2])
