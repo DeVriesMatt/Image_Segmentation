@@ -38,8 +38,11 @@ def get_accuracy(SR, GT, threshold=0.5):
     acc = float(corr)/float(tensor_size)
     # print(corr)
     # print(tensor_size)
+    # TODO: Changed this for accuracy debugging
+    TP, FP, TN, FN = confusion(SR, GT)
+    accuracy = float(TP + TN)/(float(TP + TN + FP + FN) + 1e-6)
 
-    return acc
+    return accuracy
 
 
 def get_sensitivity(SR, GT, threshold=0.5):

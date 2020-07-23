@@ -202,6 +202,7 @@ class Solver(object):
 														'%s_train_%d_GT.png'%(self.model_type,epoch+1)))
 
 				# Decay learning rate
+				# TODO: Read to check learning rate
 				if (epoch+1) > (self.num_epochs - self.num_epochs_decay):
 					lr -= (self.lr / float(self.num_epochs_decay))
 					for param_group in self.optimizer.param_groups:
