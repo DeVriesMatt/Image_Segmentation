@@ -160,7 +160,7 @@ class Solver(object):
 					# print(GT.size(0))
 
 					GT_flat = GT[:,:1,:,:].view(GT.size(0),-1)   # TODO: Changed for image patches added "[:,:1,:,:]"
-					loss = self.criterion(SR_flat,GT_flat)
+					loss = self.criterion(SR_flat, GT_flat)
 					epoch_loss += loss.item()
 
 					# Backprop + optimize
@@ -226,6 +226,15 @@ class Solver(object):
 					images = images.to(self.device)
 					GT = GT.to(self.device)
 					SR = F.sigmoid(self.unet(images))
+
+
+					SR_flat = SR.view(SR_probs.size(0),-1)
+					# print(GT.size(0))
+
+					GT_flat = GT[:,:1,:,:].view(GT.size(0),-1)   # TODO: Changed for image patches added "[:,:1,:,:]"
+					loss = self.criterion(SR_flat, GT_flat)
+					epoch_loss += loss.item()
+
 					acc += get_accuracy(SR,GT)
 					SE += get_sensitivity(SR,GT)
 					SP += get_specificity(SR,GT)
@@ -245,7 +254,8 @@ class Solver(object):
 				DC = DC/length
 				unet_score = JS + DC
 
-				print('[Validation] Acc: %.4f, SE: %.4f, SP: %.4f, PC: %.4f, F1: %.4f, JS: %.4f, DC: %.4f'%(acc,SE,SP,PC,F1,JS,DC))
+				print('Epoch [%d/%d], Loss: %.4f, \n[Validation] Acc: %.4f, SE: %.4f, SP: %.4f, PC: %.4f, F1: %.4f,'
+					  ' JS: %.4f, DC: %.4f'%(epoch+1, self.num_epochs,epoch_loss,acc,SE,SP,PC,F1,JS,DC))
 				
 
 				torchvision.utils.save_image(images.data.cpu(),
