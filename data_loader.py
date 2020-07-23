@@ -88,8 +88,8 @@ class ImageFolder(data.Dataset):
 		image = Transform(image)
 		# print(image.shape)
 		# TODO: green channel only
-		# image = image[1:2, :, :]
-		print(image.shape)
+		image = image[1:2, :, :]
+		# print(image.shape)
 
 		GT = Transform(GT)
 
