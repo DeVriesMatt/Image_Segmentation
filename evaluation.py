@@ -31,11 +31,11 @@ def confusion(prediction, truth, threshold=0.5):
 
 
 def get_accuracy(SR, GT, threshold=0.5):
-    SR = SR > threshold
-    GT = GT == torch.max(GT)
-    corr = torch.sum(SR==GT)
-    tensor_size = SR.size(0)*SR.size(1)*SR.size(2)*SR.size(3)
-    acc = float(corr)/float(tensor_size)
+    # SR = SR > threshold
+    # GT = GT == torch.max(GT)
+    # corr = torch.sum(SR==GT)
+    # tensor_size = SR.size(0)*SR.size(1)*SR.size(2)*SR.size(3)
+    # acc = float(corr)/float(tensor_size)
     # print(corr)
     # print(tensor_size)
     # TODO: Changed this for accuracy debugging
