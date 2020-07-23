@@ -86,6 +86,11 @@ class ImageFolder(data.Dataset):
 		Transform = T.Compose(Transform)
 		
 		image = Transform(image)
+		# print(image.shape)
+		# TODO: green channel only
+		image = image[1:2, :, :]
+		print(image.shape)
+
 		GT = Transform(GT)
 
 		Norm_ = T.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))

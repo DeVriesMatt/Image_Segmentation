@@ -164,6 +164,7 @@ class U_Net(nn.Module):
         self.Conv_1x1 = nn.Conv2d(64,output_ch,kernel_size=1,stride=1,padding=0)
 
     def forward(self,x):
+        print(x.shape)
         # encoding path
         x1 = self.Conv1(x)
 
@@ -233,7 +234,7 @@ class MiniUNet(nn.Module):
 
 
 class R2U_Net(nn.Module):
-    def __init__(self,img_ch=3,output_ch=1,t=2):
+    def __init__(self,img_ch=1,output_ch=1,t=2):  #TODO: change image channel for green channel only
         super(R2U_Net,self).__init__()
         
         self.Maxpool = nn.MaxPool2d(kernel_size=2,stride=2)

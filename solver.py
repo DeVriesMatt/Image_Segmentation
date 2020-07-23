@@ -34,6 +34,9 @@ class Solver(object):
 		self.lr = config.lr
 		self.beta1 = config.beta1
 		self.beta2 = config.beta2
+		# TODO: added beta_list
+		self.beta_list = [float(self.beta1), float(self.beta2)]
+
 
 		# Training settings
 		self.num_epochs = config.num_epochs
@@ -59,7 +62,7 @@ class Solver(object):
 		if self.model_type =='U_Net':
 			self.unet = U_Net(img_ch=3,output_ch=1)
 		elif self.model_type =='R2U_Net':
-			self.unet = R2U_Net(img_ch=3,output_ch=1,t=self.t)
+			self.unet = R2U_Net(img_ch=1,output_ch=1,t=self.t)  # TODO: changed for green image chanel
 		elif self.model_type =='AttU_Net':
 			self.unet = AttU_Net(img_ch=3,output_ch=1)
 		elif self.model_type == 'R2AttU_Net':
@@ -72,7 +75,8 @@ class Solver(object):
 			self.unet = R2UIternet(n_channels=3, n_classes=1)
 
 		self.optimizer = optim.Adam(list(self.unet.parameters()),
-									  self.lr, [self.beta1, self.beta2])
+									self.lr,
+									tuple(self.beta_list))
 		self.unet.to(self.device)
 
 		# self.print_network(self.unet, self.model_type)
@@ -150,6 +154,7 @@ class Solver(object):
 					# GT : Ground Truth
 
 					images = images.to(self.device)
+					# print(images.shape)
 					GT = GT.to(self.device)
 					# print(GT)
 
