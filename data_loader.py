@@ -57,15 +57,15 @@ class ImageFolder(data.Dataset):
 			Transform.append(T.CenterCrop((int(CropRange*aspect_ratio))))
 			Transform = T.Compose(Transform)
 			
-			image = Transform(image)
-			GT = Transform(GT)
+			# image = Transform(image)
+			# GT = Transform(GT)
 
 			ShiftRange_left = 10  # random.randint(0,20)
 			ShiftRange_upper = 10  # random.randint(0,20)
 			ShiftRange_right = image.size[0] - 10  # random.randint(0,20)
 			ShiftRange_lower = image.size[1] - 10  # random.randint(0,20)
-			image = image.crop(box=(ShiftRange_left,ShiftRange_upper,ShiftRange_right,ShiftRange_lower))
-			GT = GT.crop(box=(ShiftRange_left,ShiftRange_upper,ShiftRange_right,ShiftRange_lower))
+			# image = image.crop(box=(ShiftRange_left,ShiftRange_upper,ShiftRange_right,ShiftRange_lower))
+			# GT = GT.crop(box=(ShiftRange_left,ShiftRange_upper,ShiftRange_right,ShiftRange_lower))
 
 			# if random.random() < 0.5:
 			# 	image = F.hflip(image)
@@ -77,7 +77,7 @@ class ImageFolder(data.Dataset):
 
 			Transform = T.ColorJitter(brightness=0.2,contrast=0.2,hue=0.02)
 
-			image = Transform(image)
+			# image = Transform(image)
 
 			Transform =[]
 
@@ -85,8 +85,8 @@ class ImageFolder(data.Dataset):
 		Transform.append(T.ToTensor())
 		Transform = T.Compose(Transform)
 		
-		image = Transform(image)
-		GT = Transform(GT)
+		# image = Transform(image)
+		# GT = Transform(GT)
 
 		Norm_ = T.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
 		# image = Norm_(image)
