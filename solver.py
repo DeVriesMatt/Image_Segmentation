@@ -68,7 +68,7 @@ class Solver(object):
 			self.unet = Iternet(n_channels=3, n_classes=1)
 		elif self.model_type == 'AttUIternet':
 			self.unet = AttUIternet(n_channels=3, n_classes=1)
-		elif self.model_type == 'R2UItenet':
+		elif self.model_type == 'R2UIternet':
 			self.unet = R2UIternet(n_channels=3, n_classes=1, t=self.t)
 
 		self.optimizer = optim.Adam(list(self.unet.parameters()),
