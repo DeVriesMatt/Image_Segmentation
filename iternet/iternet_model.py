@@ -117,9 +117,9 @@ class AttUIternet(nn.Module):
         return logits
 
 
-class R2UItenet(nn.Module):
+class R2UIternet(nn.Module):
     def __init__(self, n_channels, n_classes, out_channels=32, iterations=3):
-        super(R2UItenet, self).__init__()
+        super(R2UIternet, self).__init__()
         self.n_channels = n_channels
         self.n_classes = n_classes
         self.iterations = iterations
