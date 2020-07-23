@@ -191,7 +191,15 @@ class Solver(object):
 					  epoch_loss,\
 					  acc,SE,SP,PC,F1,JS,DC))
 
-			
+				torchvision.utils.save_image(images.data.cpu(),
+											os.path.join(self.result_path,
+														'%s_train_%d_image.png'%(self.model_type,epoch+1)))
+				torchvision.utils.save_image(SR_probs.data.cpu(),
+											os.path.join(self.result_path,
+														'%s_train_%d_SR.png'%(self.model_type,epoch+1)))
+				torchvision.utils.save_image(GT.data.cpu(),
+											os.path.join(self.result_path,
+														'%s_train_%d_GT.png'%(self.model_type,epoch+1)))
 
 				# Decay learning rate
 				if (epoch+1) > (self.num_epochs - self.num_epochs_decay):
