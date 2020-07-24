@@ -125,7 +125,7 @@ class R2UIternet(nn.Module):
         self.iterations = iterations
 
         # define the network UNet layer
-        self.model_unet = R2UNetForIter(3, 1)
+        self.model_unet = R2UNetForIter(n_channels, 1)
 
         # define the network MiniUNet layers
         self.model_miniunet = ModuleList(MiniUNet(
