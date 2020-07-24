@@ -11,6 +11,7 @@ from evaluation import *
 from network import U_Net, R2U_Net, AttU_Net, R2AttU_Net
 from iternet.iternet_model import Iternet, AttUIternet, R2UIternet
 import csv
+from torchsummary import summary
 
 
 
@@ -29,6 +30,7 @@ class Solver(object):
 		self.output_ch = config.output_ch
 		self.criterion = torch.nn.BCELoss()
 		self.augmentation_prob = config.augmentation_prob
+		# self.image_size = config.
 
 		# Hyper-parameters
 		self.lr = config.lr
@@ -78,7 +80,7 @@ class Solver(object):
 									self.lr,
 									tuple(self.beta_list))
 		self.unet.to(self.device)
-
+		summary(self.unet, input_size=(1,128,128), batch_size=1)
 		# self.print_network(self.unet, self.model_type)
 
 	def print_network(self, model, name):

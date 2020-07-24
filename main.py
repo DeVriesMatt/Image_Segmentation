@@ -6,6 +6,7 @@ from torch.backends import cudnn
 import random
 
 
+
 def main(config):
     cudnn.benchmark = True
     if config.model_type not in ['U_Net','R2U_Net','AttU_Net','R2AttU_Net', 'Iternet', 'AttUIternet', 'R2UIternet']:
@@ -33,7 +34,9 @@ def main(config):
     # config.lr = lr
     # config.num_epochs_decay = decay_epoch
 
+
     print(config)
+
         
     train_loader = get_loader(image_path=config.train_path,
                             image_size=config.image_size,

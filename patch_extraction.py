@@ -15,18 +15,19 @@ import numpy as np
 from util import create_dir_if_not_exist
 
 
-DATA_RAW_DIR = "./data"
+DATA_RAW_DIR = "./dataset"
 # EXAMPLE_SLIDES_ZIP = DATA_RAW_DIR + "/example_slides.zip"
-IOSTAR_IMAGE = DATA_RAW_DIR + "/IOSTAR/image/test"
-IOSTAR_GT = DATA_RAW_DIR + "/IOSTAR/GT/test"
-PROCESSED_IOSTAR_DIR_IMAGE = "./processed/IOSTAR/test/image"
-PROCESSED_IOSTAR_DIR_GT = "./processed/IOSTAR/test/GT"
+IOSTAR_IMAGE = DATA_RAW_DIR + "/test"
+IOSTAR_GT = DATA_RAW_DIR + "/test_GT"
+
+PROCESSED_IOSTAR_DIR_IMAGE = "./processed/48/test"
+PROCESSED_IOSTAR_DIR_GT = "./processed/48/test_GT"
 
 
 def create_patch(whole_slide_dir, patch_dir, patch_size):
     # Create dirs
     responder_dir = patch_dir + "/1st_manual"
-    non_responder_dir = patch_dir + "/images"
+    non_responder_dir = patch_dir
     # create_dir_if_not_exist(responder_dir)
     create_dir_if_not_exist(non_responder_dir)
     create_dir_if_not_exist("processed")
@@ -65,7 +66,7 @@ def create_patch(whole_slide_dir, patch_dir, patch_size):
                     if np.mean(np_data[:, :, :1]) == 0:
                         continue
 
-                    processed_GT_file = os.listdir("processed/IOSTAR/test/GT/patch_128/images")
+                    processed_GT_file = os.listdir("processed/48/test_GT")
 
                     if "GT" in whole_slide_dir:
                         cropped_image.save(save_dir + "/" + file_well_num + "_x" + str(i_x) + "_y" + str(i_y) + ".png")
@@ -82,15 +83,15 @@ def create_patch(whole_slide_dir, patch_dir, patch_size):
 
 
 if __name__ == "__main__":
-    patch_size = 128
+    patch_size = 48
     print('===================== splitting GT ====================================')
-    create_patch(IOSTAR_GT, PROCESSED_IOSTAR_DIR_GT + "/patch_{:d}/".format(patch_size), patch_size)
+    create_patch(IOSTAR_GT, PROCESSED_IOSTAR_DIR_GT, patch_size)
 
     print('===================== splitting images ====================================')
-    create_patch(IOSTAR_IMAGE, PROCESSED_IOSTAR_DIR_IMAGE + "/patch_{:d}/".format(patch_size), patch_size)
+    create_patch(IOSTAR_IMAGE, PROCESSED_IOSTAR_DIR_IMAGE, patch_size)
 
-    processed_GT = os.listdir("processed/IOSTAR/test/GT/patch_128/images")
-    processed_IMAGE = os.listdir("processed/IOSTAR/test/image/patch_128/images")
+    processed_GT = os.listdir("processed/48/test_GT")
+    processed_IMAGE = os.listdir("processed/48/test")
 
     missing = []
     nk = set(processed_IMAGE).intersection(processed_GT)
