@@ -65,9 +65,10 @@ class Recurrent_block(nn.Module):
         self.t = t
         self.ch_out = ch_out
         self.conv = nn.Sequential(
-            nn.Conv2d(ch_out,ch_out,kernel_size=3,stride=1,padding=1,bias=True),
-		    nn.BatchNorm2d(ch_out),
-			nn.ReLU(inplace=True)
+            nn.Conv2d(ch_out, ch_out, kernel_size=3, stride=1, padding=1, bias=True),
+            nn.BatchNorm2d(ch_out),
+            nn.Dropout(0.5),
+            nn.ReLU(inplace=True)
         )
 
     def forward(self,x):

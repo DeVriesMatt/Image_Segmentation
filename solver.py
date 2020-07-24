@@ -13,6 +13,8 @@ from iternet.iternet_model import Iternet, AttUIternet, R2UIternet
 import csv
 from torchsummary import summary
 
+import matplotlib.pyplot as plt
+
 
 
 class Solver(object):
@@ -124,7 +126,8 @@ class Solver(object):
 
 		#====================================== Training ===========================================#
 		#===========================================================================================#
-		
+		training_loss = []
+		validation_loss = []
 		unet_path = os.path.join(self.model_path, '%s-%d-%.4f-%d-%.4f.pkl' %(self.model_type,self.num_epochs,self.lr,self.num_epochs_decay,self.augmentation_prob))
 
 		# U-Net Train
@@ -200,6 +203,8 @@ class Solver(object):
 					  epoch_loss,\
 					  acc,SE,SP,PC,F1,JS,DC))
 
+				training_loss.append(epoch_loss)
+
 				torchvision.utils.save_image(images.data.cpu(),
 											os.path.join(self.result_path,
 														'%s_train_%d_image.png'%(self.model_type,epoch+1)))
@@ -266,6 +271,7 @@ class Solver(object):
 
 				print('Epoch [%d/%d], Loss: %.4f, \n[Validation] Acc: %.4f, SE: %.4f, SP: %.4f, PC: %.4f, F1: %.4f,'
 					  ' JS: %.4f, DC: %.4f'%(epoch+1, self.num_epochs,epoch_loss,acc,SE,SP,PC,F1,JS,DC))
+				validation_loss.append(epoch_loss)
 				
 
 				torchvision.utils.save_image(images.data.cpu(),
@@ -287,6 +293,13 @@ class Solver(object):
 			best_unet = self.unet.state_dict()
 			print('Best %s model score : %.4f'%(self.model_type,best_unet_score))
 			torch.save(best_unet,unet_path)
+			# convert loss lists to np arrays
+			training_loss = np.array(training_loss)
+			validation_loss = np.array(validation_loss)
+
+			plt.plot(training_loss, label="Training Loss", color='m')
+			plt.plot(validation_loss, label="Validation Loss", color='b')
+			plt.savefig(self.result_path + "Loss_plot")
 					
 			#===================================== Test ====================================#
 			del self.unet
