@@ -102,7 +102,7 @@ class AttUIternet(nn.Module):
         self.iterations = iterations
 
         # define the network UNet layer
-        self.model_unet = AttUNetForIter(3, 1)
+        self.model_unet = AttUNetForIter(n_channels, 1)
 
         # define the network MiniUNet layers
         self.model_miniunet = ModuleList(MiniUNet(
