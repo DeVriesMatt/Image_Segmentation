@@ -84,7 +84,7 @@ class Solver(object):
 									self.lr,
 									tuple(self.beta_list))
 		self.unet.to(self.device)
-		summary(self.unet, input_size=(1,48,48), batch_size=1)
+		# summary(self.unet, input_size=(1,48,48), batch_size=1)
 		# self.print_network(self.unet, self.model_type)
 
 	def print_network(self, model, name):
