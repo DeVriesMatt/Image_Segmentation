@@ -17,8 +17,8 @@ from util import create_dir_if_not_exist
 
 DATA_RAW_DIR = "./dataset"
 # EXAMPLE_SLIDES_ZIP = DATA_RAW_DIR + "/example_slides.zip"
-IOSTAR_IMAGE = DATA_RAW_DIR + "/valid"
-IOSTAR_GT = DATA_RAW_DIR + "/valid_GT"
+IOSTAR_IMAGE = DATA_RAW_DIR + "/train"
+IOSTAR_GT = DATA_RAW_DIR + "/train_GT"
 
 PROCESSED_IOSTAR_DIR_IMAGE = "./processed/48/valid"
 PROCESSED_IOSTAR_DIR_GT = "./processed/48/valid_GT"
@@ -66,7 +66,7 @@ def create_patch(whole_slide_dir, patch_dir, patch_size):
                     if np.mean(np_data[:, :, :1]) == 0:
                         continue
 
-                    processed_GT_file = os.listdir("processed/48/valid_GT")
+                    processed_GT_file = os.listdir("processed/48/train_GT")
 
                     if "GT" in whole_slide_dir:
                         cropped_image.save(save_dir + "/" + file_well_num + "_x" + str(i_x) + "_y" + str(i_y) + ".png")
@@ -90,8 +90,8 @@ if __name__ == "__main__":
     print('===================== splitting images ====================================')
     create_patch(IOSTAR_IMAGE, PROCESSED_IOSTAR_DIR_IMAGE, patch_size)
 
-    processed_GT = os.listdir("processed/48/valid_GT")
-    processed_IMAGE = os.listdir("processed/48/valid")
+    processed_GT = os.listdir("processed/48/train_GT")
+    processed_IMAGE = os.listdir("processed/48/train")
 
     missing = []
     nk = set(processed_IMAGE).intersection(processed_GT)
