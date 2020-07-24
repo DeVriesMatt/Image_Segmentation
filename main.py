@@ -25,7 +25,7 @@ def main(config):
     
     lr = random.random()*0.0005 + 0.0000005  # TODO: change this so changed with parser
     augmentation_prob= random.random()*0.7
-    epoch = 1  # random.choice([100,150,200,250])
+    epoch = 100  # random.choice([100,150,200,250])
     decay_ratio = random.random()*0.8
     decay_epoch = int(epoch*decay_ratio)
 
