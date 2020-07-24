@@ -20,8 +20,8 @@ DATA_RAW_DIR = "./dataset"
 IOSTAR_IMAGE = DATA_RAW_DIR + "/train"
 IOSTAR_GT = DATA_RAW_DIR + "/train_GT"
 
-PROCESSED_IOSTAR_DIR_IMAGE = "./processed/48/valid"
-PROCESSED_IOSTAR_DIR_GT = "./processed/48/valid_GT"
+PROCESSED_IOSTAR_DIR_IMAGE = "./processed/48/train"
+PROCESSED_IOSTAR_DIR_GT = "./processed/48/train_GT"
 
 
 def create_patch(whole_slide_dir, patch_dir, patch_size):
