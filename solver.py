@@ -180,7 +180,7 @@ class Solver(object):
 					# print(GT.size(0))
 
 					GT_flat = GT[:,:1,:,:].view(GT.size(0),-1)   # TODO: Changed for image patches added "[:,:1,:,:]"
-					loss = calc_loss(SR, GT)
+					loss = calc_loss(SR, GT[:,:1,:,:])
 					epoch_loss += loss  # Change for dice loss  .item
 
 					# Backprop + optimize
