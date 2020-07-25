@@ -181,7 +181,7 @@ class Solver(object):
 
 					GT_flat = GT[:,:1,:,:].view(GT.size(0),-1)   # TODO: Changed for image patches added "[:,:1,:,:]"
 					loss = get_DC(SR_probs, GT)
-					epoch_loss += loss.item()
+					epoch_loss += loss  # Change for dice loss  .item
 
 					# Backprop + optimize
 					self.reset_grad()
