@@ -250,7 +250,7 @@ class Solver(object):
 					SR = F.sigmoid(self.unet(images))
 
 
-					SR_flat = SR.view(SR_probs.size(0),-1)
+					SR_flat = SR.view(SR.size(0),-1)
 					# print(GT.size(0))
 
 					GT_flat = GT[:,:1,:,:].view(GT.size(0),-1)   # TODO: Changed for image patches added "[:,:1,:,:]"
