@@ -235,6 +235,7 @@ class Solver(object):
 				#===================================== Validation ====================================#
 				self.unet.train(False)
 				self.unet.eval()
+				torch.no_grad()
 				epoch_loss = 0.
 
 				acc = 0.  	# Accuracy
@@ -249,7 +250,7 @@ class Solver(object):
 
 					images = images.to(self.device)
 					GT = GT.to(self.device)
-					SR = self.unet(images).cpu()   # TODO: added cpu() because running out og memory
+					SR = self.unet(images)  # .cpu()   # TODO: added cpu() because running out of memory
 					# print(SR)
 					SR_probs = F.sigmoid(SR)
 
