@@ -235,6 +235,7 @@ class Solver(object):
 				#===================================== Validation ====================================#
 				self.unet.train(False)
 				self.unet.eval()
+				epoch_loss = 0.
 
 				acc = 0.  	# Accuracy
 				SE = 0.		# Sensitivity (Recall)
@@ -248,15 +249,19 @@ class Solver(object):
 
 					images = images.to(self.device)
 					GT = GT.to(self.device)
-					SR = F.sigmoid(self.unet(images))
+					SR = self.unet(images)
+					# print(SR)
+					SR_probs = F.sigmoid(SR)
 
 
 					SR_flat = SR.view(SR.size(0),-1)
 					# print(GT.size(0))
 
 					GT_flat = GT[:,:1,:,:].view(GT.size(0),-1)   # TODO: Changed for image patches added "[:,:1,:,:]"
-					loss = self.criterion(SR_flat, GT_flat)
-					epoch_loss += loss.item()
+					loss = calc_loss(SR, GT[:,:1,:,:])
+					epoch_loss += loss
+					# loss = self.criterion(SR_flat, GT_flat)
+					# epoch_loss += loss.item()
 
 					acc += get_accuracy(SR, GT)
 					SE += get_sensitivity(SR, GT)
@@ -285,7 +290,7 @@ class Solver(object):
 				torchvision.utils.save_image(images.data.cpu(),
 											os.path.join(self.result_path,
 														'%s_valid_%d_image.png'%(self.model_type,epoch+1)))
-				torchvision.utils.save_image(SR.data.cpu(),
+				torchvision.utils.save_image(SR_probs.data.cpu(),
 											os.path.join(self.result_path,
 														'%s_valid_%d_SR.png'%(self.model_type,epoch+1)))
 				torchvision.utils.save_image(GT.data.cpu(),
