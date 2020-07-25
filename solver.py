@@ -41,7 +41,7 @@ class Solver(object):
 		self.beta1 = config.beta1
 		self.beta2 = config.beta2
 		# TODO: added beta_list
-		self.beta_list = [float(self.beta1), float(self.beta2)]
+		self.beta_list = (float(self.beta1), float(self.beta2))
 
 
 		# Training settings
@@ -82,10 +82,10 @@ class Solver(object):
 
 		self.optimizer = optim.Adam(list(self.unet.parameters()),
 									self.lr,
-									tuple(self.beta_list))
+									betas=tuple(self.beta_list))
 		self.unet.to(self.device)
 		# summary(self.unet, input_size=(1,48,48), batch_size=1)
-		# self.print_network(self.unet, self.model_type)
+		self.print_network(self.unet, self.model_type)
 
 	def print_network(self, model, name):
 		"""Print out the network information."""
@@ -118,7 +118,7 @@ class Solver(object):
 		return acc
 
 	def tensor2img(self,x):
-		img = (x[:,0,:,:]>x[:,1,:,:]).float()
+		img = float((x[:,0,:,:]>x[:,1,:,:]))
 		img = img*255
 		return img
 
@@ -130,13 +130,18 @@ class Solver(object):
 		#===========================================================================================#
 		training_loss = []
 		validation_loss = []
-		unet_path = os.path.join(self.model_path, '%s-%d-%.4f-%d-%.4f.pkl' %(self.model_type,self.num_epochs,self.lr,self.num_epochs_decay,self.augmentation_prob))
+		unet_path = os.path.join(self.model_path,
+								 '%s-%d-%.4f-%d-%.4f.pkl' %(self.model_type,
+																			 self.num_epochs,
+																			 self.lr,
+																			 self.num_epochs_decay,
+																			 self.augmentation_prob))
 
 		# U-Net Train
 		if os.path.isfile(unet_path):
 			# Load the pretrained Encoder
 			self.unet.load_state_dict(torch.load(unet_path))
-			print('%s is Successfully Loaded from %s'%(self.model_type,unet_path))
+			print('%s is Successfully Loaded from %s'%(self.model_type, unet_path))
 		else:
 			# Train for Encoder
 			lr = self.lr
@@ -145,9 +150,9 @@ class Solver(object):
 			for epoch in range(self.num_epochs):
 
 				self.unet.train(True)
-				epoch_loss = 0
+				epoch_loss = 0.
 				
-				acc = 0.	# Accuracy
+				acc = 0. 	# Accuracy
 				SE = 0.		# Sensitivity (Recall)
 				SP = 0.		# Specificity
 				PC = 0. 	# Precision
@@ -230,14 +235,14 @@ class Solver(object):
 				self.unet.train(False)
 				self.unet.eval()
 
-				acc = 0.	# Accuracy
+				acc = 0.  	# Accuracy
 				SE = 0.		# Sensitivity (Recall)
 				SP = 0.		# Specificity
 				PC = 0. 	# Precision
 				F1 = 0.		# F1 Score
 				JS = 0.		# Jaccard Similarity
 				DC = 0.		# Dice Coefficient
-				length=0
+				length= 0
 				for i, (images, GT) in enumerate(self.valid_loader):
 
 					images = images.to(self.device)
@@ -252,13 +257,13 @@ class Solver(object):
 					loss = self.criterion(SR_flat, GT_flat)
 					epoch_loss += loss.item()
 
-					acc += get_accuracy(SR,GT)
-					SE += get_sensitivity(SR,GT)
-					SP += get_specificity(SR,GT)
-					PC += get_precision(SR,GT)
-					F1 += get_F1(SR,GT)
-					JS += get_JS(SR,GT)
-					DC += get_DC(SR,GT)
+					acc += get_accuracy(SR, GT)
+					SE += get_sensitivity(SR, GT)
+					SP += get_specificity(SR, GT)
+					PC += get_precision(SR, GT)
+					F1 += get_F1(SR, GT)
+					JS += get_JS(SR, GT)
+					DC += get_DC(SR, GT)
 						
 					length += images.size(0)
 					
