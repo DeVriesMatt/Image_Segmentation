@@ -16,7 +16,7 @@ class ImageFolder(data.Dataset):
 		
 		# GT : Ground Truth
 		self.GT_paths = root[:-1]+'_GT/'  #TODO: change for non image patches self.GT_paths = root[:-1]+'_GT/'
-		self.image_paths = list(map(lambda x: os.path.join(root, x), os.listdir(root)))
+		self.image_paths = root[:-1]+'_GT/'  # TODO: test on only GT images as input list(map(lambda x: os.path.join(root, x), os.listdir(root)))
 		self.image_size = image_size
 		self.mode = mode
 		self.RotationDegree = [0, 90, 180, 270]

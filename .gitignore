@@ -11,3 +11,5 @@
 *.icloud
 *.pkl
 *.pkl
+*.jpg
+data/

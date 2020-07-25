@@ -9,8 +9,8 @@ import urllib.request
 
 DATA_RAW_DIR = "./data"
 EXAMPLE_SLIDES_ZIP = DATA_RAW_DIR + "/IOSTAR.zip"
-EXAMPLE_SLIDES_DIR = DATA_RAW_DIR + "/IOSTAR"
-PROCESSED_DIR = "./data/processed/48"
+EXAMPLE_SLIDES_DIR = DATA_RAW_DIR + "/CHASEDB1"
+PROCESSED_DIR = "./data/processed/CHASE"
 
 
 def download_slide_images():
@@ -122,15 +122,15 @@ if __name__ == '__main__':
     parser.add_argument('--test_ratio', type=float, default=0.2)
 
     # data path
-    parser.add_argument('--origin_data_path', type=str, default='./processed/48/train/')
-    parser.add_argument('--origin_GT_path', type=str, default='./processed/48/train_GT/')
+    parser.add_argument('--origin_data_path', type=str, default='./processed/CHASE/train/')
+    parser.add_argument('--origin_GT_path', type=str, default='./processed/CHASE/train_GT/')
     
-    parser.add_argument('--train_path', type=str, default='./processed/48/train/')
-    parser.add_argument('--train_GT_path', type=str, default='./processed/48/train_GT/')
-    parser.add_argument('--valid_path', type=str, default='./processed/48/valid/')
-    parser.add_argument('--valid_GT_path', type=str, default='./processed/48/valid_GT/')
-    parser.add_argument('--test_path', type=str, default='./processed/48/test/')
-    parser.add_argument('--test_GT_path', type=str, default='./processed/48/test_GT/')
+    parser.add_argument('--train_path', type=str, default='./processed/CHASE/train/')
+    parser.add_argument('--train_GT_path', type=str, default='./processed/CHASE/train_GT/')
+    parser.add_argument('--valid_path', type=str, default='./processed/CHASE/valid/')
+    parser.add_argument('--valid_GT_path', type=str, default='./processed/CHASE/valid_GT/')
+    parser.add_argument('--test_path', type=str, default='./processed/CHASE/test/')
+    parser.add_argument('--test_GT_path', type=str, default='./processed/CHASE/test_GT/')
 
     config = parser.parse_args()
     print(config)
