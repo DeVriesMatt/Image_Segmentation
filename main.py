@@ -4,7 +4,10 @@ from solver import Solver
 from data_loader import get_loader
 from torch.backends import cudnn
 import random
-
+import torchbearer
+import torch.optim as optim
+from torchbearer import Trial
+from evaluation import *
 
 
 def main(config):
@@ -56,6 +59,12 @@ def main(config):
                             num_workers=config.num_workers,
                             mode='test',
                             augmentation_prob=0.)
+
+    # TODO:
+    ############# Trying torchbearer
+
+
+
 
     solver = Solver(config, train_loader, valid_loader, test_loader)
 
