@@ -138,8 +138,8 @@ def dice_loss(prediction, target):
     smooth = 1.0
     print(prediction.shape)
     print(target.shape)
-    i_flat = prediction.view(-1)
-    t_flat = target.view(-1)
+    i_flat = prediction.reshape(-1)
+    t_flat = target.reshape(-1)
 
     intersection = (i_flat * t_flat).sum()
 
