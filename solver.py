@@ -249,7 +249,7 @@ class Solver(object):
 
 					images = images.to(self.device)
 					GT = GT.to(self.device)
-					SR = self.unet(images)
+					SR = self.unet(images).cpu()   # TODO: added cpu() because running out og memory
 					# print(SR)
 					SR_probs = F.sigmoid(SR)
 
