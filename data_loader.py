@@ -28,7 +28,7 @@ class ImageFolder(data.Dataset):
 
 		image_path = self.image_paths[index]
 		# filename = image_path.split('_')[-1][:-len(".jpg")]
-		filename = image_path[-9:]  # TODO: Change when using image patches because of naming convention: 15 for patch 9 for not patch
+		filename = image_path[-15:]  # TODO: Change when using image patches because of naming convention: 15 for patch 9 for not patch
 		GT_path = (self.GT_paths + filename)  #TODO: bug when crating images to name a space
 		# print(GT_path)
 		image = Image.open(image_path)
