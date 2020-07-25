@@ -93,7 +93,7 @@ class ImageFolder(data.Dataset):
 		# print(image.shape)
 
 		GT = Transform(GT)
-		Gt = GT[0, :, :]
+		GT = GT[0, :, :]
 
 		Norm_ = T.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
 		# image = Norm_(image)
