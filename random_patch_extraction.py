@@ -42,7 +42,7 @@ images = sorted(os.listdir(IOSTAR_IMAGE))
 print(images)
 
 
-def create_patch(image_path, gt_path, patch_dir, patch_size, patch_per_image=5000):
+def create_patch(image_path, gt_path, patch_dir, patch_size, patch_per_image=2500):
     # Create dirs
     responder_dir = patch_dir + "_GT"
     non_responder_dir = patch_dir

@@ -309,11 +309,21 @@ class Solver(object):
 			# convert loss lists to np arrays
 			training_loss = np.array(training_loss)
 			validation_loss = np.array(validation_loss)
+			print(training_loss)
+			print(validation_loss)
 
 			plt.plot(training_loss, label="Training Loss", color='m')
 			plt.plot(validation_loss, label="Validation Loss", color='b')
 			plt.legend()
 			plt.savefig(self.result_path + "/Loss_plot.png")
+
+			fig, ax = plt.subplots()
+			ax.plot(training_loss, label="Training Loss", color='m')
+			ax.plot(validation_loss, label="Validation Loss", color='b')
+			ax.set_title('Loss plot')
+			ax.legend()
+			fig.savefig("/Loss plot using ax")
+
 					
 			#===================================== Test ====================================#
 			del self.unet
