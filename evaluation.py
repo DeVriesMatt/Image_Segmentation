@@ -136,8 +136,9 @@ def dice_loss(prediction, target):
         dice_loss"""
 
     smooth = 1.0
-    print(prediction.shape)
-    print(target.shape)
+    # print(prediction.shape)
+    # print(target.shape)
+    # TODO: Used reshape() instead of view because of batch size > 1
     i_flat = prediction.reshape(-1)
     t_flat = target.reshape(-1)
 
