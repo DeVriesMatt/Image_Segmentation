@@ -307,6 +307,7 @@ class Solver(object):
 
 			plt.plot(training_loss, label="Training Loss", color='m')
 			plt.plot(validation_loss, label="Validation Loss", color='b')
+			plt.legend()
 			plt.savefig(self.result_path + "/Loss_plot.png")
 					
 			#===================================== Test ====================================#
