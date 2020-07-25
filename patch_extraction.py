@@ -2,11 +2,11 @@
 Download, extract and split example slide images.
 """
 
-import csv
+# import csv
 import os
-import urllib.request
-import zipfile
-from shutil import copyfile
+# import urllib.request
+# import zipfile
+# from shutil import copyfile
 
 from PIL import Image
 from tqdm import tqdm
