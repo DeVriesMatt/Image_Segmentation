@@ -73,13 +73,13 @@ class Recurrent_block(nn.Module):
 
     def forward(self,x):
         for i in range(self.t):
-
-            if i==0:
-                x1 = self.conv(x)
+            if i == 0:
+                x = self.conv(x)
             
-            x1 = self.conv(x+x1)
-        return x1
-        
+            out = self.conv(x+x)
+        return out
+
+
 class RRCNN_block(nn.Module):
     def __init__(self,ch_in,ch_out,t=2):
         super(RRCNN_block,self).__init__()
@@ -92,7 +92,8 @@ class RRCNN_block(nn.Module):
     def forward(self,x):
         x = self.Conv_1x1(x)
         x1 = self.RCNN(x)
-        return x+x1
+        out = x + x1
+        return out
 
 
 class single_conv(nn.Module):
