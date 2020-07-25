@@ -50,6 +50,7 @@ def create_patch(whole_slide_dir, patch_dir, patch_size):
 
     # Iterate through files to split and group them
     image_files = os.listdir(whole_slide_dir)
+    print(image_files)
     print(len(image_files), "slide images found")
     total = 0
     skipped = []
@@ -90,12 +91,12 @@ def create_patch(whole_slide_dir, patch_dir, patch_size):
                         processed_GT_file = os.listdir("processed/CHASE/test_GT")
 
                     if "GT" in whole_slide_dir:
-                        cropped_image.save(save_dir + "/" + file_well_num + "_x" + str(i_x).zfill(2) + "_y" + str(i_y).zfill(2) + ".png")
+                        cropped_image.save(save_dir + "/" + file_well_num.zfill(5) + "_x" + str(i_x).zfill(2) + "_y" + str(i_y).zfill(2) + ".png")
                     else:
-                        naming_string = file_well_num + "_x" + str(i_x).zfill(2) + "_y" + str(i_y).zfill(2) + ".png"
+                        naming_string = file_well_num.zfill(5) + "_x" + str(i_x).zfill(2) + "_y" + str(i_y).zfill(2) + ".png"
                         if naming_string not in processed_GT_file:
                             continue
-                        cropped_image.save(save_dir + "/" + file_well_num + "_x" + str(i_x).zfill(2) + "_y" + str(i_y).zfill(2) + ".png")
+                        cropped_image.save(save_dir + "/" + file_well_num.zfill(5) + "_x" + str(i_x).zfill(2) + "_y" + str(i_y).zfill(2) + ".png")
                     total += 1
 
     print('Created', total, 'split images')

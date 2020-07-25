@@ -16,7 +16,7 @@ class ImageFolder(data.Dataset):
 		
 		# GT : Ground Truth
 		self.GT_paths = root[:-1]+'_GT/'  #TODO: change for non image patches self.GT_paths = root[:-1]+'_GT/'
-		self.image_paths = root[:-1]+'_GT/'  # TODO: test on only GT images as input list(map(lambda x: os.path.join(root, x), os.listdir(root)))
+		self.image_paths = list(map(lambda x: os.path.join(root, x), os.listdir(root)))  # root[:-1]+'_GT/'  # TODO: test on only GT images as input list(map(lambda x: os.path.join(root, x), os.listdir(root)))
 		self.image_size = image_size
 		self.mode = mode
 		self.RotationDegree = [0, 90, 180, 270]
@@ -28,11 +28,12 @@ class ImageFolder(data.Dataset):
 
 		image_path = self.image_paths[index]
 		# filename = image_path.split('_')[-1][:-len(".jpg")]
-		filename = image_path[-17:]    # TODO: Change when using image patches because of naming convention: 15 for patch 9 for not patch
-		GT_path = self.GT_paths + filename
-
+		filename = image_path[-17:]  # TODO: Change when using image patches because of naming convention: 15 for patch 9 for not patch
+		GT_path = (self.GT_paths + " " + filename)  #TODO: bug when crating images to name a space
+		# print(GT_path)
 		image = Image.open(image_path)
 		GT = Image.open(GT_path)
+		"processed/CHASE/train_GT/ 00009_x16_y08.png"
 
 		aspect_ratio = image.size[1]/image.size[0]
 

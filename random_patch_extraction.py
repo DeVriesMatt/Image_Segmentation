@@ -21,13 +21,28 @@ DATA_RAW_DIR = "./dataset"
 IOSTAR_IMAGE = DATA_RAW_DIR + "/train"
 IOSTAR_GT = DATA_RAW_DIR + "/train_GT"
 
-PROCESSED_IOSTAR_DIR_IMAGE = "./random/48/train"
-PROCESSED_IOSTAR_DIR_GT = "./random/48/train_GT"
+PROCESSED_IOSTAR_DIR_IMAGE = "./random/CHASE/train"
+PROCESSED_IOSTAR_DIR_GT = "./random/CHASE/train_GT"
+
+
+IOSTAR_IMAGE_VAL = DATA_RAW_DIR + "/valid"
+IOSTAR_GT_VAL = DATA_RAW_DIR + "/valid_GT"
+
+PROCESSED_IOSTAR_DIR_IMAGE_VAL = "./random/CHASE/valid"
+PROCESSED_IOSTAR_DIR_GT_VAL = "./random/CHASE/valid_GT"
+
+
+IOSTAR_IMAGE_TEST = DATA_RAW_DIR + "/test"
+IOSTAR_GT_TEST = DATA_RAW_DIR + "/test_GT"
+
+PROCESSED_IOSTAR_DIR_IMAGE_TEST = "./random/CHASE/test"
+PROCESSED_IOSTAR_DIR_GT_TEST = "./random/CHASE/test_GT"
 
 images = sorted(os.listdir(IOSTAR_IMAGE))
 print(images)
 
-def create_patch(image_path, gt_path, patch_dir, patch_size, patch_per_image=9):
+
+def create_patch(image_path, gt_path, patch_dir, patch_size, patch_per_image=5000):
     # Create dirs
     responder_dir = patch_dir + "_GT"
     non_responder_dir = patch_dir
@@ -46,13 +61,13 @@ def create_patch(image_path, gt_path, patch_dir, patch_size, patch_per_image=9):
         if "DS_Store" not in image_file:
             image = Image.open(image_path + "/" + image_file)
             image_np = np.asarray(image)
-            print(image_np.shape)
+            # print(image_np.shape)
 
             gt = Image.open(gt_path + "/" + image_file)
             gt_np = np.asarray(gt)
-            print(gt_np.shape)
+            # print(gt_np.shape)
             gt_np = np.reshape(gt_np, (gt_np.shape[0], gt_np.shape[1], 1))
-            print(gt_np.shape)
+            # print(gt_np.shape)
 
 
             width, height = image.size
@@ -102,7 +117,7 @@ def create_patch(image_path, gt_path, patch_dir, patch_size, patch_per_image=9):
                 if np.mean(np.asarray(cropped_image_gt)) == 0:
                     continue
                 else:
-                    print(np.mean(np.asarray(cropped_image_gt)[:, :, :1]))
+                    # print(np.mean(np.asarray(cropped_image_gt)[:, :, :1]))
 
 
                     iter_tot += 1  # total
@@ -118,7 +133,7 @@ def create_patch(image_path, gt_path, patch_dir, patch_size, patch_per_image=9):
             # print(patches)
 
             # return patches  #, patches_masks
-
+    print('Created', iter_tot, 'split images')
 
 
 
@@ -156,22 +171,53 @@ def create_patch(image_path, gt_path, patch_dir, patch_size, patch_per_image=9):
 
 if __name__ == "__main__":
     patch_size = 48
-    print('===================== splitting GT ====================================')
+    print('===================== splitting Train ====================================')
     create_patch(IOSTAR_IMAGE, IOSTAR_GT, PROCESSED_IOSTAR_DIR_IMAGE, patch_size)
 
-    # print('===================== splitting images ====================================')
-    # create_patch(IOSTAR_IMAGE, PROCESSED_IOSTAR_DIR_IMAGE, patch_size)
-    #
-    # processed_GT = os.listdir("processed/48/train_GT")
-    # processed_IMAGE = os.listdir("processed/48/train")
-    #
-    # missing = []
-    # nk = set(processed_IMAGE).intersection(processed_GT)
-    # for x in processed_IMAGE:
-    #     if x in nk:
-    #         continue
-    #     missing.append(x)
-    #
-    # print(len(missing))
-    # print(missing)
 
+    processed_GT = os.listdir("processed/CHASE/train_GT")
+    processed_IMAGE = os.listdir("processed/CHASE/train")
+
+    missing = []
+    nk = set(processed_IMAGE).intersection(processed_GT)
+    for x in processed_IMAGE:
+        if x in nk:
+            continue
+        missing.append(x)
+
+    print(len(missing))
+    print(missing)
+
+    print('===================== splitting Validation ====================================')
+    create_patch(IOSTAR_IMAGE_VAL, IOSTAR_GT_VAL, PROCESSED_IOSTAR_DIR_IMAGE_VAL, patch_size)
+
+
+    processed_GT = os.listdir("processed/CHASE/valid_GT")
+    processed_IMAGE = os.listdir("processed/CHASE/valid")
+
+    missing = []
+    nk = set(processed_IMAGE).intersection(processed_GT)
+    for x in processed_IMAGE:
+        if x in nk:
+            continue
+        missing.append(x)
+
+    print(len(missing))
+    print(missing)
+
+    print('===================== splitting Test ====================================')
+    create_patch(IOSTAR_IMAGE_TEST, IOSTAR_GT_TEST, PROCESSED_IOSTAR_DIR_IMAGE_TEST, patch_size)
+
+
+    processed_GT = os.listdir("processed/CHASE/test_GT")
+    processed_IMAGE = os.listdir("processed/CHASE/test")
+
+    missing = []
+    nk = set(processed_IMAGE).intersection(processed_GT)
+    for x in processed_IMAGE:
+        if x in nk:
+            continue
+        missing.append(x)
+
+    print(len(missing))
+    print(missing)
