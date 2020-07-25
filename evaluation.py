@@ -136,7 +136,8 @@ def dice_loss(prediction, target):
         dice_loss"""
 
     smooth = 1.0
-
+    print(prediction.shape)
+    print(target.shape)
     i_flat = prediction.view(-1)
     t_flat = target.view(-1)
 
