@@ -32,7 +32,7 @@ class Solver(object):
 		self.optimizer = None
 		self.img_ch = config.img_ch
 		self.output_ch = config.output_ch
-		self.criterion = torch.nn.BCELoss()
+		self.criterion = torch.nn.BCELoss()  # TODO: Look at changing
 		self.augmentation_prob = config.augmentation_prob
 		# self.image_size = config.
 
@@ -174,12 +174,13 @@ class Solver(object):
 					SR = self.unet(images)
 					# print(SR)
 					SR_probs = F.sigmoid(SR)
+					prediction = (SR_probs > 0.5).type(torch.uint8)
 					# print(SR_probs.shape)
 					SR_flat = SR_probs.view(SR_probs.size(0),-1)
 					# print(GT.size(0))
 
 					GT_flat = GT[:,:1,:,:].view(GT.size(0),-1)   # TODO: Changed for image patches added "[:,:1,:,:]"
-					loss = self.criterion(SR_flat, GT_flat)
+					loss = get_DC(SR_probs, GT)
 					epoch_loss += loss.item()
 
 					# Backprop + optimize
@@ -215,7 +216,7 @@ class Solver(object):
 				torchvision.utils.save_image(images.data.cpu(),
 											os.path.join(self.result_path,
 														'%s_train_%d_image.png'%(self.model_type,epoch+1)))
-				torchvision.utils.save_image(SR_probs.data.cpu(),
+				torchvision.utils.save_image(prediction.data.cpu(),
 											os.path.join(self.result_path,
 														'%s_train_%d_SR.png'%(self.model_type,epoch+1)))
 				torchvision.utils.save_image(GT.data.cpu(),
