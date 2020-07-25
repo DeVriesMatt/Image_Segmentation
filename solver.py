@@ -9,7 +9,7 @@ from torch.autograd import Variable
 import torch.nn.functional as F
 from evaluation import *
 from network import U_Net, R2U_Net, AttU_Net, R2AttU_Net
-from .iternet.iternet_model import Iternet, AttUIternet, R2UIternet
+from iternet.iternet_model import Iternet, AttUIternet, R2UIternet
 import csv
 from torchsummary import summary
 
