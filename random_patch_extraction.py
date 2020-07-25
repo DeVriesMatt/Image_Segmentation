@@ -175,8 +175,8 @@ if __name__ == "__main__":
     create_patch(IOSTAR_IMAGE, IOSTAR_GT, PROCESSED_IOSTAR_DIR_IMAGE, patch_size)
 
 
-    processed_GT = os.listdir("processed/CHASE/train_GT")
-    processed_IMAGE = os.listdir("processed/CHASE/train")
+    processed_GT = os.listdir("random/CHASE/train_GT")
+    processed_IMAGE = os.listdir("random/CHASE/train")
 
     missing = []
     nk = set(processed_IMAGE).intersection(processed_GT)
@@ -192,8 +192,8 @@ if __name__ == "__main__":
     create_patch(IOSTAR_IMAGE_VAL, IOSTAR_GT_VAL, PROCESSED_IOSTAR_DIR_IMAGE_VAL, patch_size)
 
 
-    processed_GT = os.listdir("processed/CHASE/valid_GT")
-    processed_IMAGE = os.listdir("processed/CHASE/valid")
+    processed_GT = os.listdir("random/CHASE/valid_GT")
+    processed_IMAGE = os.listdir("random/CHASE/valid")
 
     missing = []
     nk = set(processed_IMAGE).intersection(processed_GT)
@@ -209,8 +209,8 @@ if __name__ == "__main__":
     create_patch(IOSTAR_IMAGE_TEST, IOSTAR_GT_TEST, PROCESSED_IOSTAR_DIR_IMAGE_TEST, patch_size)
 
 
-    processed_GT = os.listdir("processed/CHASE/test_GT")
-    processed_IMAGE = os.listdir("processed/CHASE/test")
+    processed_GT = os.listdir("random/CHASE/test_GT")
+    processed_IMAGE = os.listdir("random/CHASE/test")
 
     missing = []
     nk = set(processed_IMAGE).intersection(processed_GT)
