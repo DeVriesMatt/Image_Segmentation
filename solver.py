@@ -168,7 +168,7 @@ class Solver(object):
 		#
 		# 	return loss
 		#
-		trial = Trial(self.unet, self.optimizer, self.criterion, metrics=['loss', mean(get_DC)]).to(self.device)
+		trial = Trial(self.unet, self.optimizer, self.criterion, metrics=['loss', 'acc']).to(self.device)
 		trial.with_generators(train_generator=self.train_loader,
 							  val_generator=self.valid_loader,
 							  test_generator=self.test_loader)
