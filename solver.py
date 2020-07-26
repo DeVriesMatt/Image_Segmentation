@@ -10,7 +10,7 @@ import torch.nn.functional as F
 from torchbearer import Trial
 from torchbearer.metrics import mean
 from evaluation import *
-from network import U_Net, R2U_Net, AttU_Net, R2AttU_Net
+from network import U_Net, R2U_Net, AttU_Net, R2AttU_Net, NestedUNet
 from iter_net.iternet_model import Iternet, AttUIternet, R2UIternet
 import csv
 from torchsummary import summary
@@ -82,6 +82,9 @@ class Solver(object):
 			self.unet = AttUIternet(n_channels=3, n_classes=1)
 		elif self.model_type == 'R2UIternet':
 			self.unet = R2UIternet(n_channels=3, n_classes=1)
+		elif self.model_type == 'NestedUNet':
+			self.unet = NestedUNet(in_ch=3, out_ch=1)
+
 
 		self.optimizer = optim.Adam(list(self.unet.parameters()),
 									self.lr,
