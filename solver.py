@@ -172,7 +172,7 @@ class Solver(object):
 		trial.with_generators(train_generator=self.train_loader,
 							  val_generator=self.valid_loader,
 							  test_generator=self.test_loader)
-		history = trial.run(epochs=5, verbose=2)
+		history = trial.run(epochs=self.num_epochs, verbose=2)
 		print(history)
 
 
