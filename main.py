@@ -103,9 +103,9 @@ if __name__ == '__main__':
     parser.add_argument('--mode', type=str, default='train')
     parser.add_argument('--model_type', type=str, default='R2U_Net', help='U_Net/R2U_Net/AttU_Net/R2AttU_Net/Iternet/AttUIternet/R2UItenet')
     parser.add_argument('--model_path', type=str, default='./models')
-    parser.add_argument('--train_path', type=str, default='./processed/CHASE/train/')
-    parser.add_argument('--valid_path', type=str, default='./processed/CHASE/valid/')
-    parser.add_argument('--test_path', type=str, default='./processed/CHASE/test/')
+    parser.add_argument('--train_path', type=str, default='./random/CHASE/train/')
+    parser.add_argument('--valid_path', type=str, default='./random/CHASE/valid/')
+    parser.add_argument('--test_path', type=str, default='./random/CHASE/test/')
     parser.add_argument('--result_path', type=str, default='./result/')
 
     parser.add_argument('--cuda_idx', type=int, default=1)
