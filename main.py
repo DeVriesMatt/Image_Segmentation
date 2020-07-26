@@ -89,7 +89,7 @@ if __name__ == '__main__':
     parser.add_argument('--output_ch', type=int, default=1)
     parser.add_argument('--num_epochs', type=int, default=100)
     parser.add_argument('--num_epochs_decay', type=int, default=80)
-    parser.add_argument('--batch_size', type=int, default=10)
+    parser.add_argument('--batch_size', type=int, default=1)
     parser.add_argument('--num_workers', type=int, default=8)
     parser.add_argument('--lr', type=float, default=0.0002)       # Original LR 0.0002
     parser.add_argument('--beta1', type=float, default=0.5)        # momentum1 in Adam
@@ -103,9 +103,9 @@ if __name__ == '__main__':
     parser.add_argument('--mode', type=str, default='train')
     parser.add_argument('--model_type', type=str, default='R2U_Net', help='U_Net/R2U_Net/AttU_Net/R2AttU_Net/Iternet/AttUIternet/R2UItenet')
     parser.add_argument('--model_path', type=str, default='./models')
-    parser.add_argument('--train_path', type=str, default='./random/CHASE/train/')
-    parser.add_argument('--valid_path', type=str, default='./random/CHASE/valid/')
-    parser.add_argument('--test_path', type=str, default='./random/CHASE/test/')
+    parser.add_argument('--train_path', type=str, default='./processed/STARE/train/')
+    parser.add_argument('--valid_path', type=str, default='./processed/STARE/valid/')
+    parser.add_argument('--test_path', type=str, default='./processed/STARE/test/')
     parser.add_argument('--result_path', type=str, default='./result/')
 
     parser.add_argument('--cuda_idx', type=int, default=1)

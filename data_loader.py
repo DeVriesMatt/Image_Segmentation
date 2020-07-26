@@ -28,64 +28,64 @@ class ImageFolder(data.Dataset):
 
 		image_path = self.image_paths[index]
 		# filename = image_path.split('_')[-1][:-len(".jpg")]
-		filename = image_path[-9:]  # TODO: Change when using image patches because of naming convention: 15 for patch 9 for not patch
+		filename = image_path[-17:]  # TODO: Change when using image patches because of naming convention: 17 for patch 9 for not patch
 		GT_path = (self.GT_paths + filename)  #TODO: bug when crating images to name a space
 		# print(GT_path)
 		image = Image.open(image_path)
 		GT = Image.open(GT_path)
 		"processed/CHASE/train_GT/ 00009_x16_y08.png"
 
-		aspect_ratio = image.size[1]/image.size[0]
-
+		# aspect_ratio = image.size[1]/image.size[0]
+		#
 		Transform = []
-
-		ResizeRange = random.randint(300, 320)
-		# Transform.append(T.Resize((int(ResizeRange*aspect_ratio))))
-		p_transform = random.random()
-
-		if (self.mode == 'train') and p_transform <= self.augmentation_prob:
-			RotationDegree = 2  # random.randint(0, 3)
-			RotationDegree = self.RotationDegree[RotationDegree]
-			if (RotationDegree == 90) or (RotationDegree == 270):
-				aspect_ratio = 1/aspect_ratio
-			# print(RotationDegree)
-
-			# Transform.append(T.RandomRotation((RotationDegree)))  # Only 1 argument
-
-			RotationRange = 10  # random.randint(0,20)
-			Transform.append(T.RandomRotation((RotationRange)))  # Only 1 argument
-			CropRange = 48  # random.randint(250,270)
-			Transform.append(T.CenterCrop((int(CropRange*aspect_ratio))))
-			Transform = T.Compose(Transform)
-
-			image = Transform(image)
-			GT = Transform(GT)
-
-			ShiftRange_left = 10  # random.randint(0,20)
-			ShiftRange_upper = 10  # random.randint(0,20)
-			ShiftRange_right = image.size[0] - 10  # random.randint(0,20)
-			ShiftRange_lower = image.size[1] - 10  # random.randint(0,20)
-			image = image.crop(box=(ShiftRange_left,ShiftRange_upper,ShiftRange_right,ShiftRange_lower))
-			GT = GT.crop(box=(ShiftRange_left,ShiftRange_upper,ShiftRange_right,ShiftRange_lower))
-
-			if random.random() < 0.5:
-				image = F.hflip(image)
-				GT = F.hflip(GT)
-
-			if random.random() < 0.5:
-				image = F.vflip(image)
-				GT = F.vflip(GT)
-
-			# Transform = T.ColorJitter(brightness=0.2,contrast=0.2,hue=0.02)
-
-			image = Transform(image)
-
-			Transform =[]
-
-		Transform.append(T.Resize((int(48*aspect_ratio)-int(48*aspect_ratio)%16)))
+		#
+		# ResizeRange = random.randint(300, 320)
+		# # Transform.append(T.Resize((int(ResizeRange*aspect_ratio))))
+		# p_transform = random.random()
+		#
+		# if (self.mode == 'train') and p_transform <= self.augmentation_prob:
+		# 	RotationDegree = 2  # random.randint(0, 3)
+		# 	RotationDegree = self.RotationDegree[RotationDegree]
+		# 	if (RotationDegree == 90) or (RotationDegree == 270):
+		# 		aspect_ratio = 1/aspect_ratio
+		# 	# print(RotationDegree)
+		#
+		# 	# Transform.append(T.RandomRotation((RotationDegree)))  # Only 1 argument
+		#
+		# 	RotationRange = 10  # random.randint(0,20)
+		# 	Transform.append(T.RandomRotation((RotationRange)))  # Only 1 argument
+		# 	CropRange = 48  # random.randint(250,270)
+		# 	Transform.append(T.CenterCrop((int(CropRange*aspect_ratio))))
+		# 	Transform = T.Compose(Transform)
+		#
+		# 	image = Transform(image)
+		# 	GT = Transform(GT)
+		#
+		# 	ShiftRange_left = 10  # random.randint(0,20)
+		# 	ShiftRange_upper = 10  # random.randint(0,20)
+		# 	ShiftRange_right = image.size[0] - 10  # random.randint(0,20)
+		# 	ShiftRange_lower = image.size[1] - 10  # random.randint(0,20)
+		# 	image = image.crop(box=(ShiftRange_left,ShiftRange_upper,ShiftRange_right,ShiftRange_lower))
+		# 	GT = GT.crop(box=(ShiftRange_left,ShiftRange_upper,ShiftRange_right,ShiftRange_lower))
+		#
+		# 	if random.random() < 0.5:
+		# 		image = F.hflip(image)
+		# 		GT = F.hflip(GT)
+		#
+		# 	if random.random() < 0.5:
+		# 		image = F.vflip(image)
+		# 		GT = F.vflip(GT)
+		#
+		# 	# Transform = T.ColorJitter(brightness=0.2,contrast=0.2,hue=0.02)
+		#
+		# 	image = Transform(image)
+		#
+		# 	Transform =[]
+		#
+		# Transform.append(T.Resize((int(48*aspect_ratio)-int(48*aspect_ratio)%16)))
 		Transform.append(T.ToTensor())
 		Transform = T.Compose(Transform)
-		
+		#
 		image = Transform(image)
 		# print(image.shape)
 		# TODO: green channel only
