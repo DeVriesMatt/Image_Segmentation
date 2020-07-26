@@ -28,7 +28,7 @@ def main(config):
     
     lr = random.random()*0.0005 + 0.0000005  # TODO: change this so changed with parser
     augmentation_prob= random.random()*0.7
-    epoch = 5  # random.choice([100,150,200,250])
+    epoch = config.num_epochs  # random.choice([100,150,200,250])
     decay_ratio = random.random()*0.8
     decay_epoch = int(epoch*decay_ratio)
 
@@ -87,9 +87,9 @@ if __name__ == '__main__':
     # training hyper-parameters
     parser.add_argument('--img_ch', type=int, default=1)  # TODO: change for image channel to be green only
     parser.add_argument('--output_ch', type=int, default=1)
-    parser.add_argument('--num_epochs', type=int, default=5)
-    parser.add_argument('--num_epochs_decay', type=int, default=30)
-    parser.add_argument('--batch_size', type=int, default=1)
+    parser.add_argument('--num_epochs', type=int, default=100)
+    parser.add_argument('--num_epochs_decay', type=int, default=80)
+    parser.add_argument('--batch_size', type=int, default=10)
     parser.add_argument('--num_workers', type=int, default=8)
     parser.add_argument('--lr', type=float, default=0.0002)       # Original LR 0.0002
     parser.add_argument('--beta1', type=float, default=0.5)        # momentum1 in Adam
