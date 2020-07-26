@@ -69,19 +69,19 @@ class Solver(object):
 	def build_model(self):
 		"""Build generator and discriminator."""
 		if self.model_type =='U_Net':
-			self.unet = U_Net(img_ch=1,output_ch=1)
+			self.unet = U_Net(img_ch=3,output_ch=1)
 		elif self.model_type =='R2U_Net':
-			self.unet = R2U_Net(img_ch=1,output_ch=1, t=self.t)  # TODO: changed for green image chanel
+			self.unet = R2U_Net(img_ch=3,output_ch=1, t=self.t)  # TODO: changed for green image chanel
 		elif self.model_type =='AttU_Net':
-			self.unet = AttU_Net(img_ch=1,output_ch=1)
+			self.unet = AttU_Net(img_ch=3,output_ch=1)
 		elif self.model_type == 'R2AttU_Net':
-			self.unet = R2AttU_Net(img_ch=1,output_ch=1, t=self.t)
+			self.unet = R2AttU_Net(img_ch=3,output_ch=1, t=self.t)
 		elif self.model_type == 'Iternet':
-			self.unet = Iternet(n_channels=1, n_classes=1)
+			self.unet = Iternet(n_channels=3, n_classes=1)
 		elif self.model_type == 'AttUIternet':
-			self.unet = AttUIternet(n_channels=1, n_classes=1)
+			self.unet = AttUIternet(n_channels=3, n_classes=1)
 		elif self.model_type == 'R2UIternet':
-			self.unet = R2UIternet(n_channels=1, n_classes=1)
+			self.unet = R2UIternet(n_channels=3, n_classes=1)
 
 		self.optimizer = optim.Adam(list(self.unet.parameters()),
 									self.lr,
