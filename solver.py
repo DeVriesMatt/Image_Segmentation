@@ -341,7 +341,7 @@ class Solver(object):
 				torchvision.utils.save_image(images.data.cpu(),
 											os.path.join(self.result_path,
 														'%s_valid_%d_image.png'%(self.model_type,epoch+1)))
-				torchvision.utils.save_image(SR_probs.data.cpu(),
+				torchvision.utils.save_image(SR.data.cpu(),
 											os.path.join(self.result_path,
 														'%s_valid_%d_SR.png'%(self.model_type,epoch+1)))
 				torchvision.utils.save_image(GT.data.cpu(),
