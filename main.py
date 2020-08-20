@@ -12,7 +12,7 @@ from evaluation import *
 
 def main(config):
     cudnn.benchmark = True
-    if config.model_type not in ['U_Net','R2U_Net','AttU_Net','R2AttU_Net', 'Iternet', 'AttUIternet', 'R2UIternet', 'NestedUNet', 'AG_Net']:
+    if config.model_type not in ['UNet','R2U_Net','AttU_Net','R2AttU_Net', 'Iternet', 'AttUIternet', 'R2UIternet', 'NestedUNet', 'AG_Net']:
         print('ERROR!! model_type should be selected in U_Net/R2U_Net/AttU_Net/R2AttU_Net')
         print('Your input for model_type was %s'%config.model_type)
         return
@@ -88,11 +88,11 @@ if __name__ == '__main__':
     parser.add_argument('--img_ch', type=int, default=3)  # TODO: change for image channel to be green only
     parser.add_argument('--output_ch', type=int, default=1)
     parser.add_argument('--num_epochs', type=int, default=100)
-    parser.add_argument('--num_epochs_decay', type=int, default=80)
-    parser.add_argument('--batch_size', type=int, default=1)
+    parser.add_argument('--num_epochs_decay', type=int, default=10)
+    parser.add_argument('--batch_size', type=int, default=60)
     parser.add_argument('--num_workers', type=int, default=8)
-    parser.add_argument('--lr', type=float, default=0.0002)       # Original LR 0.0002
-    parser.add_argument('--beta1', type=float, default=0.5)        # momentum1 in Adam
+    parser.add_argument('--lr', type=float, default=0.002)       # Original LR 0.0002
+    parser.add_argument('--beta1', type=float, default=0.9)        # momentum1 in Adam
     parser.add_argument('--beta2', type=float, default=0.999)      # momentum2 in Adam    
     parser.add_argument('--augmentation_prob', type=float, default=0.4)
 
@@ -101,11 +101,11 @@ if __name__ == '__main__':
 
     # misc
     parser.add_argument('--mode', type=str, default='train')
-    parser.add_argument('--model_type', type=str, default='AG_Net', help='U_Net/R2U_Net/AttU_Net/R2AttU_Net/Iternet/AttUIternet/R2UItenet/NestedUNet')
+    parser.add_argument('--model_type', type=str, default='UNet', help='U_Net/R2U_Net/AttU_Net/R2AttU_Net/Iternet/AttUIternet/R2UItenet/NestedUNet')
     parser.add_argument('--model_path', type=str, default='./models')
-    parser.add_argument('--train_path', type=str, default='./processed/STARE/train/')
-    parser.add_argument('--valid_path', type=str, default='./processed/STARE/valid/')
-    parser.add_argument('--test_path', type=str, default='./processed/STARE/test/')
+    parser.add_argument('--train_path', type=str, default='./random/DRIVE/train/')
+    parser.add_argument('--valid_path', type=str, default='./random/DRIVE/valid/')
+    parser.add_argument('--test_path', type=str, default='./random/DRIVE/test/')
     parser.add_argument('--result_path', type=str, default='./result/')
 
     parser.add_argument('--cuda_idx', type=int, default=1)

@@ -88,9 +88,9 @@ class Solver(object):
 	def build_model(self):
 		"""Build generator and discriminator."""
 		if self.model_type =='UNet':
-			self.unet = UNet(n_channels=3, n_classes=1)
+			self.unet = UNet(n_channels=1, n_classes=1)
 		elif self.model_type =='R2U_Net':
-			self.unet = R2U_Net(img_ch=3,output_ch=1, t=self.t)  # TODO: changed for green image chanel
+			self.unet = R2U_Net(img_ch=3,output_ch=1, t=self.t)  # TODO: changed for green image channel
 		elif self.model_type =='AttU_Net':
 			self.unet = AttU_Net(img_ch=3,output_ch=1)
 		elif self.model_type == 'R2AttU_Net':
@@ -221,11 +221,11 @@ class Solver(object):
 		train_time = stop - start
 		state = self.unet.state_dict()
 		unet_path = os.path.join(self.model_path,
-								 '%s-%d-%.4f-%d-%.4f.pkl' % (self.model_type,
+								 '%s-%d-%.4f-%d-%.4f_preProcc_Combo_Dropout_BigData.pkl' % (self.model_type,
 															 self.num_epochs,
 															 self.lr,
 															 self.num_epochs_decay,
-															 self.augmentation_prob))
+															 self.augmentation_prob,))
 		torch.save(state, unet_path)
 		print(history)
 
