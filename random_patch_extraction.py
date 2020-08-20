@@ -16,33 +16,33 @@ import numpy as np
 from util import create_dir_if_not_exist
 
 
-DATA_RAW_DIR = "./dataset"
+DATA_RAW_DIR = "./data/DRIVE/training"
 # EXAMPLE_SLIDES_ZIP = DATA_RAW_DIR + "/example_slides.zip"
 IOSTAR_IMAGE = DATA_RAW_DIR + "/train"
 IOSTAR_GT = DATA_RAW_DIR + "/train_GT"
 
-PROCESSED_IOSTAR_DIR_IMAGE = "./random/CHASE/train"
-PROCESSED_IOSTAR_DIR_GT = "./random/CHASE/train_GT"
+PROCESSED_IOSTAR_DIR_IMAGE = "./random/DRIVE/train"
+PROCESSED_IOSTAR_DIR_GT = "./random/DRIVE/train_GT"
 
 
 IOSTAR_IMAGE_VAL = DATA_RAW_DIR + "/valid"
 IOSTAR_GT_VAL = DATA_RAW_DIR + "/valid_GT"
 
-PROCESSED_IOSTAR_DIR_IMAGE_VAL = "./random/CHASE/valid"
-PROCESSED_IOSTAR_DIR_GT_VAL = "./random/CHASE/valid_GT"
+PROCESSED_IOSTAR_DIR_IMAGE_VAL = "./random/DRIVE/valid"
+PROCESSED_IOSTAR_DIR_GT_VAL = "./random/DRIVE/valid_GT"
 
 
 IOSTAR_IMAGE_TEST = DATA_RAW_DIR + "/test"
 IOSTAR_GT_TEST = DATA_RAW_DIR + "/test_GT"
 
-PROCESSED_IOSTAR_DIR_IMAGE_TEST = "./random/CHASE/test"
-PROCESSED_IOSTAR_DIR_GT_TEST = "./random/CHASE/test_GT"
+PROCESSED_IOSTAR_DIR_IMAGE_TEST = "./random/DRIVE/test"
+PROCESSED_IOSTAR_DIR_GT_TEST = "./random/DRIVE/test_GT"
 
 images = sorted(os.listdir(IOSTAR_IMAGE))
 print(images)
 
 
-def create_patch(image_path, gt_path, patch_dir, patch_size, patch_per_image=2500):
+def create_patch(image_path, gt_path, patch_dir, patch_size, patch_per_image=5000, inside=True):
     # Create dirs
     responder_dir = patch_dir + "_GT"
     non_responder_dir = patch_dir
@@ -114,6 +114,10 @@ def create_patch(image_path, gt_path, patch_dir, patch_size, patch_per_image=250
                 cropped_image_gt = Image.new('RGB', (patch_size, patch_size), 255)
                 cropped_image_gt.paste(cropped_data_gt)
 
+                if inside:
+                    if is_patch_inside_FOV(x_center, y_center, width, height, patch_size) == False:
+                        continue
+
                 if np.mean(np.asarray(cropped_image_gt)) == 0:
                     continue
                 else:
@@ -134,10 +138,6 @@ def create_patch(image_path, gt_path, patch_dir, patch_size, patch_per_image=250
 
             # return patches  #, patches_masks
     print('Created', iter_tot, 'split images')
-
-
-
-
     #         # Split and save
     #         xs = range(0, rounded_width, patch_size)
     #         ys = range(0, rounded_height, patch_size)
@@ -169,14 +169,28 @@ def create_patch(image_path, gt_path, patch_dir, patch_size, patch_per_image=250
     #     print('Labels not found for', skipped, 'so they were skipped')
 
 
+# check if the patch is fully contained in the FOV
+def is_patch_inside_FOV(x, y, img_w, img_h, patch_h):
+    x_ = x - int(img_w/2) # origin (0,0) shifted to image center
+    y_ = y - int(img_h/2)  # origin (0,0) shifted to image center
+    R_inside = 270 - int(patch_h * np.sqrt(2.0) / 2.0)
+    # radius is 270 (from DRIVE db docs), minus the patch diagonal
+    # (assumed it is a square # this is the limit to contain the full
+    # patch in the FOV
+    radius = np.sqrt((x_*x_)+(y_*y_))
+    if radius < R_inside:
+        return True
+    else:
+        return False
+
 if __name__ == "__main__":
     patch_size = 48
     print('===================== splitting Train ====================================')
     create_patch(IOSTAR_IMAGE, IOSTAR_GT, PROCESSED_IOSTAR_DIR_IMAGE, patch_size)
 
 
-    processed_GT = os.listdir("random/CHASE/train_GT")
-    processed_IMAGE = os.listdir("random/CHASE/train")
+    processed_GT = os.listdir("random/DRIVE/train_GT")
+    processed_IMAGE = os.listdir("random/DRIVE/train")
 
     missing = []
     nk = set(processed_IMAGE).intersection(processed_GT)
@@ -192,8 +206,8 @@ if __name__ == "__main__":
     create_patch(IOSTAR_IMAGE_VAL, IOSTAR_GT_VAL, PROCESSED_IOSTAR_DIR_IMAGE_VAL, patch_size)
 
 
-    processed_GT = os.listdir("random/CHASE/valid_GT")
-    processed_IMAGE = os.listdir("random/CHASE/valid")
+    processed_GT = os.listdir("random/DRIVE/valid_GT")
+    processed_IMAGE = os.listdir("random/DRIVE/valid")
 
     missing = []
     nk = set(processed_IMAGE).intersection(processed_GT)
@@ -209,8 +223,8 @@ if __name__ == "__main__":
     create_patch(IOSTAR_IMAGE_TEST, IOSTAR_GT_TEST, PROCESSED_IOSTAR_DIR_IMAGE_TEST, patch_size)
 
 
-    processed_GT = os.listdir("random/CHASE/test_GT")
-    processed_IMAGE = os.listdir("random/CHASE/test")
+    processed_GT = os.listdir("random/DRIVE/test_GT")
+    processed_IMAGE = os.listdir("random/DRIVE/test")
 
     missing = []
     nk = set(processed_IMAGE).intersection(processed_GT)

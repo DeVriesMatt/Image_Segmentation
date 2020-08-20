@@ -3,18 +3,37 @@ import numpy as np
 import time
 import datetime
 import torch
+import torchbearer
 import torchvision
 from torch import optim
 from torch.autograd import Variable
 import torch.nn.functional as F
 from torchbearer import Trial
+from torchbearer.callbacks import torch_scheduler
 from torchbearer.metrics import mean
 from evaluation import *
-from network import U_Net, R2U_Net, AttU_Net, R2AttU_Net, NestedUNet
+from network import U_Net, R2U_Net, AttU_Net, R2AttU_Net, NestedUNet, UNet
 from iter_net.iternet_model import Iternet, AttUIternet, R2UIternet
 import csv
 from torchsummary import summary
 from torchbearer import state_key
+
+from AG_Net.core.models import AG_Net
+from losses import *
+
+
+import time
+from torchbearer import Trial, callbacks, metrics
+import torchbearer.callbacks.imaging as imaging
+import pywick.losses
+import sys
+import tensorboardX
+from torchbearer.callbacks import TensorBoard
+
+import torchbearer
+from torchbearer.callbacks import Callback
+from torchbearer.bases import get_metric
+from torchbearer.callbacks import torch_scheduler
 
 import matplotlib.pyplot as plt
 
@@ -35,7 +54,7 @@ class Solver(object):
 		self.optimizer = None
 		self.img_ch = config.img_ch
 		self.output_ch = config.output_ch
-		self.criterion = torch.nn.BCEWithLogitsLoss() #       BCELoss()  # TODO: Look at changing
+		self.criterion = ComboBCEDiceLoss()  # torch.nn.BCEWithLogitsLoss() #       BCELoss()  # TODO: Look at changing
 		self.augmentation_prob = config.augmentation_prob
 		# self.image_size = config.
 
@@ -68,8 +87,8 @@ class Solver(object):
 
 	def build_model(self):
 		"""Build generator and discriminator."""
-		if self.model_type =='U_Net':
-			self.unet = U_Net(img_ch=3,output_ch=1)
+		if self.model_type =='UNet':
+			self.unet = UNet(n_channels=3, n_classes=1)
 		elif self.model_type =='R2U_Net':
 			self.unet = R2U_Net(img_ch=3,output_ch=1, t=self.t)  # TODO: changed for green image chanel
 		elif self.model_type =='AttU_Net':
@@ -84,14 +103,16 @@ class Solver(object):
 			self.unet = R2UIternet(n_channels=3, n_classes=1)
 		elif self.model_type == 'NestedUNet':
 			self.unet = NestedUNet(in_ch=3, out_ch=1)
+		elif self.model_type == "AG_Net":
+			self.unet = AG_Net(n_classes=1, bn=True, BatchNorm=False)
 
 
 		self.optimizer = optim.Adam(list(self.unet.parameters()),
 									self.lr,
 									betas=tuple(self.beta_list))
 		self.unet.to(self.device)
-		# summary(self.unet, input_size=(1,48,48), batch_size=1)
-		# self.print_network(self.unet, self.model_type)
+		summary(self.unet, input_size=(1, 48, 48), batch_size=30)
+		self.print_network(self.unet, self.model_type)
 
 	def print_network(self, model, name):
 		"""Print out the network information."""
@@ -171,12 +192,47 @@ class Solver(object):
 		#
 		# 	return loss
 		#
-		trial = Trial(self.unet, self.optimizer, self.criterion, metrics=['loss', 'acc']).to(self.device)
+		scheduler = torch_scheduler.StepLR(self.num_epochs_decay, gamma=0.1)
+		loss_plot_plan = os.path.join(self.result_path,
+									  'live_loss_plot%s-%d-%.4f-%d-%.4f.png' % (self.model_type,
+																				self.num_epochs,
+																				self.lr,
+																				self.num_epochs_decay,
+																				self.augmentation_prob))
+		callbacks = [imaging.FromState(torchbearer.X).on_val().cache(16).make_grid().to_pyplot(),
+					 imaging.FromState(torchbearer.Y_TRUE).on_val().cache(16).make_grid().to_pyplot(),
+					 imaging.FromState(torchbearer.Y_PRED).on_val().cache(16).make_grid().to_pyplot(),
+					 imaging.FromState(torchbearer.X).on_test().cache(16).make_grid().to_pyplot(),
+					 imaging.FromState(torchbearer.Y_TRUE).on_test().cache(16).make_grid().to_pyplot(),
+					 imaging.FromState(torchbearer.Y_PRED).on_test().cache(16).make_grid().to_pyplot(),
+					 TensorBoard(write_batch_metrics=True),
+					 scheduler
+					 ]
+
+		trial = Trial(self.unet, self.optimizer, self.criterion, metrics=['loss', 'binary_acc'],
+					  # binary_acc for debugging certain things
+					  callbacks=callbacks).to(self.device)
 		trial.with_generators(train_generator=self.train_loader,
 							  val_generator=self.valid_loader,
 							  test_generator=self.test_loader)
+		start = time.time()
 		history = trial.run(epochs=self.num_epochs, verbose=2)
+		stop = time.time()
+		train_time = stop - start
+		state = self.unet.state_dict()
+		unet_path = os.path.join(self.model_path,
+								 '%s-%d-%.4f-%d-%.4f.pkl' % (self.model_type,
+															 self.num_epochs,
+															 self.lr,
+															 self.num_epochs_decay,
+															 self.augmentation_prob))
+		torch.save(state, unet_path)
 		print(history)
+
+		### Testing
+		results = trial.evaluate(data_key=torchbearer.TEST_DATA)
+		print("Test result:")
+		print(results)
 
 
 		# #====================================== Training ===========================================#

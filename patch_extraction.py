@@ -21,22 +21,22 @@ DATA_RAW_DIR = "./data/STARE"
 IOSTAR_IMAGE = DATA_RAW_DIR + "/train"
 IOSTAR_GT = DATA_RAW_DIR + "/train_GT"
 
-PROCESSED_IOSTAR_DIR_IMAGE = "./processed/STARE/train"
-PROCESSED_IOSTAR_DIR_GT = "./processed/STARE/train_GT"
+PROCESSED_IOSTAR_DIR_IMAGE = "./processed/DRIVE/train"
+PROCESSED_IOSTAR_DIR_GT = "./processed/DRIVE/train_GT"
 
 # Valid
 IOSTAR_IMAGE_VALID = DATA_RAW_DIR + "/valid"
 IOSTAR_GT_VALID = DATA_RAW_DIR + "/valid_GT"
 
-PROCESSED_IOSTAR_DIR_IMAGE_VALID = "./processed/STARE/valid"
-PROCESSED_IOSTAR_DIR_GT_VALID = "./processed/STARE/valid_GT"
+PROCESSED_IOSTAR_DIR_IMAGE_VALID = "./processed/DRIVE/valid"
+PROCESSED_IOSTAR_DIR_GT_VALID = "./processed/DRIVE/valid_GT"
 
 # Test
 IOSTAR_IMAGE_TEST = DATA_RAW_DIR + "/test"
 IOSTAR_GT_TEST = DATA_RAW_DIR + "/test_GT"
 
-PROCESSED_IOSTAR_DIR_IMAGE_TEST = "./processed/STARE/test"
-PROCESSED_IOSTAR_DIR_GT_TEST = "./processed/STARE/test_GT"
+PROCESSED_IOSTAR_DIR_IMAGE_TEST = "./processed/DRIVE/test"
+PROCESSED_IOSTAR_DIR_GT_TEST = "./processed/DRIVE/test_GT"
 
 
 def create_patch(whole_slide_dir, patch_dir, patch_size):
@@ -84,11 +84,11 @@ def create_patch(whole_slide_dir, patch_dir, patch_size):
 
                     # Check which dataset is being used
                     if 'train' in patch_dir:
-                        processed_GT_file = os.listdir("processed/STARE/train_GT")
+                        processed_GT_file = os.listdir("processed/DRIVE/train_GT")
                     elif 'valid' in patch_dir:
-                        processed_GT_file = os.listdir("processed/STARE/valid_GT")
+                        processed_GT_file = os.listdir("processed/DRIVE/valid_GT")
                     else:
-                        processed_GT_file = os.listdir("processed/STARE/test_GT")
+                        processed_GT_file = os.listdir("processed/DRIVE/test_GT")
 
                     if "GT" in whole_slide_dir:
                         cropped_image.save(save_dir + "/" + file_well_num.zfill(5) + "_x" + str(i_x).zfill(2) + "_y" + str(i_y).zfill(2) + ".png")
@@ -114,8 +114,8 @@ if __name__ == "__main__":
     print('===================== splitting images ====================================')
     create_patch(IOSTAR_IMAGE, PROCESSED_IOSTAR_DIR_IMAGE, patch_size)
 
-    processed_GT = os.listdir("processed/STARE/train_GT")
-    processed_IMAGE = os.listdir("processed/STARE/train")
+    processed_GT = os.listdir("processed/DRIVE/train_GT")
+    processed_IMAGE = os.listdir("processed/DRIVE/train")
 
     missing = []
     nk = set(processed_IMAGE).intersection(processed_GT)
@@ -136,8 +136,8 @@ if __name__ == "__main__":
     print('===================== splitting images ====================================')
     create_patch(IOSTAR_IMAGE_VALID, PROCESSED_IOSTAR_DIR_IMAGE_VALID, patch_size)
 
-    processed_GT = os.listdir("processed/STARE/valid_GT")
-    processed_IMAGE = os.listdir("processed/STARE/valid")
+    processed_GT = os.listdir("processed/DRIVE/valid_GT")
+    processed_IMAGE = os.listdir("processed/DRIVE/valid")
 
     missing = []
     nk = set(processed_IMAGE).intersection(processed_GT)
@@ -158,8 +158,8 @@ if __name__ == "__main__":
     print('===================== splitting images ====================================')
     create_patch(IOSTAR_IMAGE_TEST, PROCESSED_IOSTAR_DIR_IMAGE_TEST, patch_size)
 
-    processed_GT = os.listdir("processed/STARE/test_GT")
-    processed_IMAGE = os.listdir("processed/STARE/test")
+    processed_GT = os.listdir("processed/DRIVE/test_GT")
+    processed_IMAGE = os.listdir("processed/DRIVE/test")
 
     missing = []
     nk = set(processed_IMAGE).intersection(processed_GT)
