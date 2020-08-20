@@ -54,7 +54,7 @@ class Solver(object):
 		self.optimizer = None
 		self.img_ch = config.img_ch
 		self.output_ch = config.output_ch
-		self.criterion = ComboBCEDiceLoss()  # torch.nn.BCEWithLogitsLoss() #       BCELoss()  # TODO: Look at changing
+		self.criterion = BCEDiceFocalLoss()  # ComboBCEDiceLoss()  # torch.nn.BCEWithLogitsLoss() #       BCELoss()  # TODO: Look at changing
 		self.augmentation_prob = config.augmentation_prob
 		# self.image_size = config.
 
@@ -221,7 +221,7 @@ class Solver(object):
 		train_time = stop - start
 		state = self.unet.state_dict()
 		unet_path = os.path.join(self.model_path,
-								 '%s-%d-%.4f-%d-%.4f_preProcc_Combo_Dropout_BigData.pkl' % (self.model_type,
+								 '%s-%d-%.4f-%d-%.4f_preProcc_DiceFocalLoss_Dropout_BigData.pkl' % (self.model_type,
 															 self.num_epochs,
 															 self.lr,
 															 self.num_epochs_decay,
