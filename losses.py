@@ -99,7 +99,7 @@ class BCEDiceFocalLoss(nn.Module):
         super(BCEDiceFocalLoss, self).__init__()
         self.bce = nn.BCEWithLogitsLoss(weight=None, size_average=None, reduce=None, reduction='mean', pos_weight=None)
         self.dice = SoftDiceLoss()
-        self.focal = FocalLoss(l=focal_param)
+        self.focal = FocalLoss(l=0.5)
         self.weights = weights
 
     def forward(self, logits, targets):
