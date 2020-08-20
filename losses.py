@@ -103,7 +103,7 @@ class BCEDiceFocalLoss(nn.Module):
         self.weights = weights
 
     def forward(self, logits, targets):
-        logits = logits.squeeze()
+        # logits = logits.squeeze()
         return self.weights[0] * self.bce(logits, targets) + self.weights[1] * self.dice(logits, targets) + self.weights[2] * self.focal(logits.unsqueeze(1), targets.unsqueeze(1))
 
 
