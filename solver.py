@@ -199,15 +199,15 @@ class Solver(object):
 																				self.lr,
 																				self.num_epochs_decay,
 																				self.augmentation_prob))
-		callbacks = [imaging.FromState(torchbearer.X).on_val().cache(16).make_grid().to_pyplot(),
-					 imaging.FromState(torchbearer.Y_TRUE).on_val().cache(16).make_grid().to_pyplot(),
-					 imaging.FromState(torchbearer.Y_PRED).on_val().cache(16).make_grid().to_pyplot(),
-					 imaging.FromState(torchbearer.X).on_test().cache(16).make_grid().to_pyplot(),
-					 imaging.FromState(torchbearer.Y_TRUE).on_test().cache(16).make_grid().to_pyplot(),
-					 imaging.FromState(torchbearer.Y_PRED).on_test().cache(16).make_grid().to_pyplot(),
-					 TensorBoard(write_batch_metrics=True),
-					 scheduler
-					 ]
+		callbacks = [scheduler]
+
+		# imaging.FromState(torchbearer.X).on_val().cache(16).make_grid().to_pyplot(),
+		# 					 imaging.FromState(torchbearer.Y_TRUE).on_val().cache(16).make_grid().to_pyplot(),
+		# 					 imaging.FromState(torchbearer.Y_PRED).on_val().cache(16).make_grid().to_pyplot(),
+		# 					 imaging.FromState(torchbearer.X).on_test().cache(16).make_grid().to_pyplot(),
+		# 					 imaging.FromState(torchbearer.Y_TRUE).on_test().cache(16).make_grid().to_pyplot(),
+		# 					 imaging.FromState(torchbearer.Y_PRED).on_test().cache(16).make_grid().to_pyplot(),
+		# 					 TensorBoard(write_batch_metrics=True),
 
 		trial = Trial(self.unet, self.optimizer, self.criterion, metrics=['loss', 'binary_acc'],
 					  # binary_acc for debugging certain things
