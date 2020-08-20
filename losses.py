@@ -95,11 +95,11 @@ class BCEDiceFocalLoss(nn.Module):
         :param size_average: (bool, optional) By default, the losses are averaged over each loss element in the batch.
         :param weights: (list(), default = [1,1,1]) Optional weighing (0.0-1.0) of the losses in order of [bce, dice, focal]
     '''
-    def __init__(self, focal_param, weights=[1.0,1.0,1.0], **kwargs):
+    def __init__(self, focal_param=0.5, weights=[1.0,1.0,1.0], **kwargs):
         super(BCEDiceFocalLoss, self).__init__()
         self.bce = nn.BCEWithLogitsLoss(weight=None, size_average=None, reduce=None, reduction='mean', pos_weight=None)
         self.dice = SoftDiceLoss()
-        self.focal = FocalLoss(l=0.5)
+        self.focal = FocalLoss(l=focal_param)
         self.weights = weights
 
     def forward(self, logits, targets):

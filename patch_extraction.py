@@ -79,8 +79,8 @@ def create_patch(whole_slide_dir, patch_dir, patch_size):
                     cropped_image.paste(cropped_data)
                     np_data = np.array(cropped_image)
                     # print(np_data.shape)
-                    if np.mean(np_data[:, :, :1]) == 0:
-                        continue
+                    # if np.mean(np_data[:, :, :1]) == 0:
+                    #     continue
 
                     # Check which dataset is being used
                     if 'train' in patch_dir:
