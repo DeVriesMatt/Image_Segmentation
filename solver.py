@@ -111,8 +111,8 @@ class Solver(object):
 									self.lr,
 									betas=tuple(self.beta_list))
 		self.unet.to(self.device)
-		summary(self.unet, input_size=(1, 48, 48), batch_size=30)
-		self.print_network(self.unet, self.model_type)
+		# summary(self.unet, input_size=(1, 48, 48), batch_size=30)
+		# self.print_network(self.unet, self.model_type)
 
 	def print_network(self, model, name):
 		"""Print out the network information."""
