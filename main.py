@@ -87,7 +87,7 @@ if __name__ == '__main__':
     # training hyper-parameters
     parser.add_argument('--img_ch', type=int, default=1)  # TODO: change for image channel to be green only
     parser.add_argument('--output_ch', type=int, default=1)
-    parser.add_argument('--num_epochs', type=int, default=20)
+    parser.add_argument('--num_epochs', type=int, default=30)
     parser.add_argument('--num_epochs_decay', type=int, default=8)
     parser.add_argument('--batch_size', type=int, default=50)
     parser.add_argument('--num_workers', type=int, default=8)
