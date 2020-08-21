@@ -133,7 +133,7 @@ class ImageFolder(data.Dataset):
 
 		#
 
-		return image, GT, image_path
+		return image, GT
 
 	def __len__(self):
 		"""Returns the total number of font files."""
