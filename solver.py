@@ -208,31 +208,42 @@ class Solver(object):
 		# 					 imaging.FromState(torchbearer.Y_TRUE).on_test().cache(16).make_grid().to_pyplot(),
 		# 					 imaging.FromState(torchbearer.Y_PRED).on_test().cache(16).make_grid().to_pyplot(),
 		# 					 TensorBoard(write_batch_metrics=True),
+		try:
+			trial = Trial(self.unet, self.optimizer, self.criterion, metrics=['loss', 'binary_acc'],
+						  # binary_acc for debugging certain things
+						  callbacks=callbacks).to(self.device)
+			trial.with_generators(train_generator=self.train_loader,
+								  val_generator=self.valid_loader,
+								  test_generator=self.test_loader)
+			start = time.time()
+			history = trial.run(epochs=self.num_epochs, verbose=2)
+			stop = time.time()
+			train_time = stop - start
+			state = self.unet.state_dict()
+			unet_path = os.path.join(self.model_path,
+									 '%s-%d-%.4f-%d-%.4f_preProcc_Combo_Dropout_STARE.pkl' % (self.model_type,
+																							  self.num_epochs,
+																							  self.lr,
+																							  self.num_epochs_decay,
+																							  self.augmentation_prob,))
+			torch.save(state, unet_path)
+			print(history)
+			### Testing
+			results = trial.evaluate(data_key=torchbearer.TEST_DATA)
+			print("Test result:")
+			print(results)
+		except KeyboardInterrupt:
+			state = self.unet.state_dict()
+			unet_path = os.path.join(self.model_path,
+									 '%s-%d-%.4f-%d-%.4f_preProcc_Combo_Dropout_STARE.pkl' % (self.model_type,
+																							  self.num_epochs,
+																							  self.lr,
+																							  self.num_epochs_decay,
+																							  self.augmentation_prob,))
+			torch.save(state, unet_path[:-4] + 'interrupted' + '.pkl')
 
-		trial = Trial(self.unet, self.optimizer, self.criterion, metrics=['loss', 'binary_acc'],
-					  # binary_acc for debugging certain things
-					  callbacks=callbacks).to(self.device)
-		trial.with_generators(train_generator=self.train_loader,
-							  val_generator=self.valid_loader,
-							  test_generator=self.test_loader)
-		start = time.time()
-		history = trial.run(epochs=self.num_epochs, verbose=2)
-		stop = time.time()
-		train_time = stop - start
-		state = self.unet.state_dict()
-		unet_path = os.path.join(self.model_path,
-								 '%s-%d-%.4f-%d-%.4f_preProcc_Combo_Dropout_STARE.pkl' % (self.model_type,
-															 self.num_epochs,
-															 self.lr,
-															 self.num_epochs_decay,
-															 self.augmentation_prob,))
-		torch.save(state, unet_path)
-		print(history)
 
-		### Testing
-		results = trial.evaluate(data_key=torchbearer.TEST_DATA)
-		print("Test result:")
-		print(results)
+
 
 
 		# #====================================== Training ===========================================#

@@ -117,8 +117,8 @@ from torchvision import transforms as T
 
 
 from evaluation import *
-SR = Image.open("result/test_whole_image/00020.png")
-GT = Image.open("result/test_whole_image_true/00020.png")
+SR = Image.open("/Users/mattdevries/Desktop/result/U_Net/U_Net_valid_150_SR.png")
+GT = Image.open("/Users/mattdevries/Desktop/result/U_Net/U_Net_valid_150_GT.png")
 
 Transform = []
 Transform.append(T.ToTensor())
