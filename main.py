@@ -87,8 +87,8 @@ if __name__ == '__main__':
     # training hyper-parameters
     parser.add_argument('--img_ch', type=int, default=1)  # TODO: change for image channel to be green only
     parser.add_argument('--output_ch', type=int, default=1)
-    parser.add_argument('--num_epochs', type=int, default=50)
-    parser.add_argument('--num_epochs_decay', type=int, default=10)
+    parser.add_argument('--num_epochs', type=int, default=20)
+    parser.add_argument('--num_epochs_decay', type=int, default=8)
     parser.add_argument('--batch_size', type=int, default=50)
     parser.add_argument('--num_workers', type=int, default=8)
     parser.add_argument('--lr', type=float, default=0.002)       # Original LR 0.0002
@@ -103,9 +103,9 @@ if __name__ == '__main__':
     parser.add_argument('--mode', type=str, default='train')
     parser.add_argument('--model_type', type=str, default='UNet', help='U_Net/R2U_Net/AttU_Net/R2AttU_Net/Iternet/AttUIternet/R2UItenet/NestedUNet')
     parser.add_argument('--model_path', type=str, default='./models')
-    parser.add_argument('--train_path', type=str, default='./random/DRIVE/train/')
-    parser.add_argument('--valid_path', type=str, default='./random/DRIVE/valid/')
-    parser.add_argument('--test_path', type=str, default='./random/DRIVE/test/')
+    parser.add_argument('--train_path', type=str, default='./random/STARE/train/')
+    parser.add_argument('--valid_path', type=str, default='./random/STARE/valid/')
+    parser.add_argument('--test_path', type=str, default='./random/STARE/test/')
     parser.add_argument('--result_path', type=str, default='./result/')
 
     parser.add_argument('--cuda_idx', type=int, default=1)

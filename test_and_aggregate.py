@@ -66,45 +66,45 @@ from torchvision import transforms as T
 #
 #
 # for i, (images, GT, image_path) in enumerate(test_loader):
-#     model = Iternet(n_channels=1, n_classes=1)
-#     model.load_state_dict(torch.load('./models/Iternet-80-0.0020-10-0.4000.pkl', map_location=torch.device('cpu')))
+#     model = UNet(n_channels=1, n_classes=1)
+#     model.load_state_dict(torch.load('./models/Unet-80-0.0020-15-0.4000.pth', map_location=torch.device('cpu')))
 #     model.train(False)
 #     model.eval()
 #
 #     SR = model(images)
 #
 #     torchvision.utils.save_image(SR.data.cpu(), 'result/test_output_iternet/%s' % image_path)
-
-
-
-DATA_RAW_DIR = "./data/DRIVE/training"
-IOSTAR_IMAGE_TEST = DATA_RAW_DIR + "/test"
-
-image = Image.open(IOSTAR_IMAGE_TEST + "/00018.png")
-width, height = image.size
-
-rounded_width = 48 * (width // 48)
-rounded_height = 48 * (height // 48)
-
-trimmed_data = image.crop((0, 0, rounded_width, rounded_height))
-trimmed_image = Image.new('RGB', (rounded_width, rounded_height), 255)
-trimmed_image.paste(trimmed_data)
-slide_image = trimmed_image
-slide_width, slide_height = slide_image.size
-
-new_image = Image.new('RGB', slide_image.size, 0)
-new_true_GT = Image.new('RGB', slide_image.size, 0)
-
-
-# Split and save
+#
+#
+#
+# DATA_RAW_DIR = "./data/DRIVE/training"
+# IOSTAR_IMAGE_TEST = DATA_RAW_DIR + "/test"
+#
+# image = Image.open(IOSTAR_IMAGE_TEST + "/00020.png")
+# width, height = image.size
+#
+# rounded_width = 48 * (width // 48)
+# rounded_height = 48 * (height // 48)
+#
+# trimmed_data = image.crop((0, 0, rounded_width, rounded_height))
+# trimmed_image = Image.new('RGB', (rounded_width, rounded_height), 255)
+# trimmed_image.paste(trimmed_data)
+# slide_image = trimmed_image
+# slide_width, slide_height = slide_image.size
+#
+# new_image = Image.new('RGB', slide_image.size, 0)
+# new_true_GT = Image.new('RGB', slide_image.size, 0)
+#
+#
+# # Split and save
 # patch_size = 48
 # for i_x in range(slide_width//patch_size):
 #     for i_y in range(slide_height//patch_size):
 #         print(str(i_x).zfill(2))
 #         print(str(i_y).zfill(2))
 #
-#         patch_image = Image.open("./result/test_output_iternet/00018_x" + str(i_x).zfill(2) +  "_y" + str(i_y).zfill(2) + ".png")
-#         true_GT = Image.open("./test_patches/DRIVE/test_GT/00018_x" + str(i_x).zfill(2) +  "_y" + str(i_y).zfill(2) + ".png")
+#         patch_image = Image.open("./result/test_output_iternet/00020_x" + str(i_x).zfill(2) +  "_y" + str(i_y).zfill(2) + ".png")
+#         true_GT = Image.open("./test_patches/DRIVE/test_GT/00020_x" + str(i_x).zfill(2) +  "_y" + str(i_y).zfill(2) + ".png")
 #         # black_image =
 #         x = patch_size * i_x
 #         y = patch_size * i_y
@@ -112,13 +112,13 @@ new_true_GT = Image.new('RGB', slide_image.size, 0)
 #         new_image.paste(patch_image, box)
 #         new_true_GT.paste(true_GT, box)
 #
-# new_image.save("result/test_whole_image_iternet/00018.png")
-# new_true_GT.save("result/test_whole_image_iternet_true/00018.png")
+# new_image.save("result/test_whole_image/00020.png")
+# new_true_GT.save("result/test_whole_image_true/00020.png")
 
 
 from evaluation import *
-SR = Image.open("result/test_whole_image_iternet/00018.png")
-GT = Image.open("result/test_whole_image_iternet_true/00018.png")
+SR = Image.open("result/test_whole_image/00020.png")
+GT = Image.open("result/test_whole_image_true/00020.png")
 
 Transform = []
 Transform.append(T.ToTensor())
@@ -133,6 +133,8 @@ print(get_accuracy(SR[0], GT[0]))
 print(get_sensitivity(SR[0], GT[0]))
 print(get_specificity(SR[0], GT[0]))
 print(get_DC(SR[0], GT[0]))
+print(get_JS(SR[0], GT[0]))
+
 
 
 
