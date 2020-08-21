@@ -15,28 +15,28 @@ import numpy as np
 from util import create_dir_if_not_exist
 
 
-DATA_RAW_DIR = "./data/STARE"
+DATA_RAW_DIR = "./data/DRIVE/training"
 # EXAMPLE_SLIDES_ZIP = DATA_RAW_DIR + "/example_slides.zip"
 # Train
-IOSTAR_IMAGE = DATA_RAW_DIR + "/train"
-IOSTAR_GT = DATA_RAW_DIR + "/train_GT"
-
-PROCESSED_IOSTAR_DIR_IMAGE = "./processed/DRIVE/train"
-PROCESSED_IOSTAR_DIR_GT = "./processed/DRIVE/train_GT"
-
-# Valid
-IOSTAR_IMAGE_VALID = DATA_RAW_DIR + "/valid"
-IOSTAR_GT_VALID = DATA_RAW_DIR + "/valid_GT"
-
-PROCESSED_IOSTAR_DIR_IMAGE_VALID = "./processed/DRIVE/valid"
-PROCESSED_IOSTAR_DIR_GT_VALID = "./processed/DRIVE/valid_GT"
+# IOSTAR_IMAGE = DATA_RAW_DIR + "/train"
+# IOSTAR_GT = DATA_RAW_DIR + "/train_GT"
+#
+# PROCESSED_IOSTAR_DIR_IMAGE = "./test_patches/DRIVE/train"
+# PROCESSED_IOSTAR_DIR_GT = "./test_patches/DRIVE/train_GT"
+#
+# # Valid
+# IOSTAR_IMAGE_VALID = DATA_RAW_DIR + "/valid"
+# IOSTAR_GT_VALID = DATA_RAW_DIR + "/valid_GT"
+#
+# PROCESSED_IOSTAR_DIR_IMAGE_VALID = "./test_patch/DRIVE/valid"
+# PROCESSED_IOSTAR_DIR_GT_VALID = "./test_patches/DRIVE/valid_GT"
 
 # Test
 IOSTAR_IMAGE_TEST = DATA_RAW_DIR + "/test"
 IOSTAR_GT_TEST = DATA_RAW_DIR + "/test_GT"
 
-PROCESSED_IOSTAR_DIR_IMAGE_TEST = "./processed/DRIVE/test"
-PROCESSED_IOSTAR_DIR_GT_TEST = "./processed/DRIVE/test_GT"
+PROCESSED_IOSTAR_DIR_IMAGE_TEST = "./test_patches/DRIVE/test"
+PROCESSED_IOSTAR_DIR_GT_TEST = "./test_patches/DRIVE/test_GT"
 
 
 def create_patch(whole_slide_dir, patch_dir, patch_size):
@@ -107,47 +107,47 @@ def create_patch(whole_slide_dir, patch_dir, patch_size):
 if __name__ == "__main__":
     patch_size = 48
     # Train
-    print("Splitting the training data")
-    print('===================== splitting GT ====================================')
-    create_patch(IOSTAR_GT, PROCESSED_IOSTAR_DIR_GT, patch_size)
-
-    print('===================== splitting images ====================================')
-    create_patch(IOSTAR_IMAGE, PROCESSED_IOSTAR_DIR_IMAGE, patch_size)
-
-    processed_GT = os.listdir("processed/DRIVE/train_GT")
-    processed_IMAGE = os.listdir("processed/DRIVE/train")
-
-    missing = []
-    nk = set(processed_IMAGE).intersection(processed_GT)
-    for x in processed_IMAGE:
-        if x in nk:
-            continue
-        missing.append(x)
-
-    print(len(missing))
-    print(missing)
-
-
-    # Validation
-    print("Splitting the validation data")
-    print('===================== splitting GT ====================================')
-    create_patch(IOSTAR_GT_VALID, PROCESSED_IOSTAR_DIR_GT_VALID, patch_size)
-
-    print('===================== splitting images ====================================')
-    create_patch(IOSTAR_IMAGE_VALID, PROCESSED_IOSTAR_DIR_IMAGE_VALID, patch_size)
-
-    processed_GT = os.listdir("processed/DRIVE/valid_GT")
-    processed_IMAGE = os.listdir("processed/DRIVE/valid")
-
-    missing = []
-    nk = set(processed_IMAGE).intersection(processed_GT)
-    for x in processed_IMAGE:
-        if x in nk:
-            continue
-        missing.append(x)
-
-    print(len(missing))
-    print(missing)
+    # print("Splitting the training data")
+    # print('===================== splitting GT ====================================')
+    # create_patch(IOSTAR_GT, PROCESSED_IOSTAR_DIR_GT, patch_size)
+    #
+    # print('===================== splitting images ====================================')
+    # create_patch(IOSTAR_IMAGE, PROCESSED_IOSTAR_DIR_IMAGE, patch_size)
+    #
+    # processed_GT = os.listdir("processed/DRIVE/train_GT")
+    # processed_IMAGE = os.listdir("processed/DRIVE/train")
+    #
+    # missing = []
+    # nk = set(processed_IMAGE).intersection(processed_GT)
+    # for x in processed_IMAGE:
+    #     if x in nk:
+    #         continue
+    #     missing.append(x)
+    #
+    # print(len(missing))
+    # print(missing)
+    #
+    #
+    # # Validation
+    # print("Splitting the validation data")
+    # print('===================== splitting GT ====================================')
+    # create_patch(IOSTAR_GT_VALID, PROCESSED_IOSTAR_DIR_GT_VALID, patch_size)
+    #
+    # print('===================== splitting images ====================================')
+    # create_patch(IOSTAR_IMAGE_VALID, PROCESSED_IOSTAR_DIR_IMAGE_VALID, patch_size)
+    #
+    # processed_GT = os.listdir("processed/DRIVE/valid_GT")
+    # processed_IMAGE = os.listdir("processed/DRIVE/valid")
+    #
+    # missing = []
+    # nk = set(processed_IMAGE).intersection(processed_GT)
+    # for x in processed_IMAGE:
+    #     if x in nk:
+    #         continue
+    #     missing.append(x)
+    #
+    # print(len(missing))
+    # print(missing)
 
 
     # Test

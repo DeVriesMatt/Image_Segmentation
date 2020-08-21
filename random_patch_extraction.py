@@ -39,7 +39,7 @@ def create_patch(image_path, gt_path, patch_dir, patch_size, patch_per_image, in
             image_np = np.asarray(image)
             # print(image_np.shape)
 
-            gt = Image.open(gt_path + "/" + image_file)
+            gt = Image.open(gt_path + "/" + image_file[:-3] + 'png')
             gt_np = np.asarray(gt)
             # print(gt_np.shape)
             gt_np = np.reshape(gt_np, (gt_np.shape[0], gt_np.shape[1], 1))
@@ -162,76 +162,76 @@ def is_patch_inside_FOV(x, y, img_w, img_h, patch_h):
 if __name__ == "__main__":
     patch_size = 48
 
-    DATA_RAW_DIR = "./data/DRIVE/training"
-    # EXAMPLE_SLIDES_ZIP = DATA_RAW_DIR + "/example_slides.zip"
-    IOSTAR_IMAGE = DATA_RAW_DIR + "/train"
-    IOSTAR_GT = DATA_RAW_DIR + "/train_GT"
-
-    PROCESSED_IOSTAR_DIR_IMAGE = "./random/DRIVE/train"
-    PROCESSED_IOSTAR_DIR_GT = "./random/DRIVE/train_GT"
-
-    IOSTAR_IMAGE_VAL = DATA_RAW_DIR + "/valid"
-    IOSTAR_GT_VAL = DATA_RAW_DIR + "/valid_GT"
-
-    PROCESSED_IOSTAR_DIR_IMAGE_VAL = "./random/DRIVE/valid"
-    PROCESSED_IOSTAR_DIR_GT_VAL = "./random/DRIVE/valid_GT"
-
-    IOSTAR_IMAGE_TEST = DATA_RAW_DIR + "/test"
-    IOSTAR_GT_TEST = DATA_RAW_DIR + "/test_GT"
-
-    PROCESSED_IOSTAR_DIR_IMAGE_TEST = "./random/DRIVE/test"
-    PROCESSED_IOSTAR_DIR_GT_TEST = "./random/DRIVE/test_GT"
-
-    print('.########  DRIVE  #######.')
-    print('===================== splitting Train ====================================')
-    create_patch(IOSTAR_IMAGE, IOSTAR_GT, PROCESSED_IOSTAR_DIR_IMAGE, patch_size, 2500)
-
-
-    print('===================== splitting Validation ====================================')
-    create_patch(IOSTAR_IMAGE_VAL, IOSTAR_GT_VAL, PROCESSED_IOSTAR_DIR_IMAGE_VAL, patch_size, 2500)
-
-
-
-    print('===================== splitting Test ====================================')
-    create_patch(IOSTAR_IMAGE_TEST, IOSTAR_GT_TEST, PROCESSED_IOSTAR_DIR_IMAGE_TEST, patch_size, 2500)
-
-
-    # STARE
-    DATA_RAW_DIR = "./data/STARE/"
-    # EXAMPLE_SLIDES_ZIP = DATA_RAW_DIR + "/example_slides.zip"
-    IOSTAR_IMAGE = DATA_RAW_DIR + "/train"
-    IOSTAR_GT = DATA_RAW_DIR + "/train_GT"
-
-    PROCESSED_IOSTAR_DIR_IMAGE = "./random/STARE/train"
-    PROCESSED_IOSTAR_DIR_GT = "./random/STARE/train_GT"
-
-    IOSTAR_IMAGE_VAL = DATA_RAW_DIR + "/valid"
-    IOSTAR_GT_VAL = DATA_RAW_DIR + "/valid_GT"
-
-    PROCESSED_IOSTAR_DIR_IMAGE_VAL = "./random/STARE/valid"
-    PROCESSED_IOSTAR_DIR_GT_VAL = "./random/STARE/valid_GT"
-
-    IOSTAR_IMAGE_TEST = DATA_RAW_DIR + "/test"
-    IOSTAR_GT_TEST = DATA_RAW_DIR + "/test_GT"
-
-    PROCESSED_IOSTAR_DIR_IMAGE_TEST = "./random/STARE/test"
-    PROCESSED_IOSTAR_DIR_GT_TEST = "./random/STARE/test_GT"
-
-    print('.########  STARE  #######.')
-    print('===================== splitting Train ====================================')
-    create_patch(IOSTAR_IMAGE, IOSTAR_GT, PROCESSED_IOSTAR_DIR_IMAGE, patch_size, 2500)
-
-
-    print('===================== splitting Validation ====================================')
-    create_patch(IOSTAR_IMAGE_VAL, IOSTAR_GT_VAL, PROCESSED_IOSTAR_DIR_IMAGE_VAL, patch_size, 2500)
-
-
-
-    print('===================== splitting Test ====================================')
-    create_patch(IOSTAR_IMAGE_TEST, IOSTAR_GT_TEST, PROCESSED_IOSTAR_DIR_IMAGE_TEST, patch_size, 2500)
+    # DATA_RAW_DIR = "./data/DRIVE/training"
+    # # EXAMPLE_SLIDES_ZIP = DATA_RAW_DIR + "/example_slides.zip"
+    # IOSTAR_IMAGE = DATA_RAW_DIR + "/train"
+    # IOSTAR_GT = DATA_RAW_DIR + "/train_GT"
+    #
+    # PROCESSED_IOSTAR_DIR_IMAGE = "./random/DRIVE/train"
+    # PROCESSED_IOSTAR_DIR_GT = "./random/DRIVE/train_GT"
+    #
+    # IOSTAR_IMAGE_VAL = DATA_RAW_DIR + "/valid"
+    # IOSTAR_GT_VAL = DATA_RAW_DIR + "/valid_GT"
+    #
+    # PROCESSED_IOSTAR_DIR_IMAGE_VAL = "./random/DRIVE/valid"
+    # PROCESSED_IOSTAR_DIR_GT_VAL = "./random/DRIVE/valid_GT"
+    #
+    # IOSTAR_IMAGE_TEST = DATA_RAW_DIR + "/test"
+    # IOSTAR_GT_TEST = DATA_RAW_DIR + "/test_GT"
+    #
+    # PROCESSED_IOSTAR_DIR_IMAGE_TEST = "./random/DRIVE/test"
+    # PROCESSED_IOSTAR_DIR_GT_TEST = "./random/DRIVE/test_GT"
+    #
+    # print('.########  DRIVE  #######.')
+    # print('===================== splitting Train ====================================')
+    # create_patch(IOSTAR_IMAGE, IOSTAR_GT, PROCESSED_IOSTAR_DIR_IMAGE, patch_size, 2500)
+    #
+    #
+    # print('===================== splitting Validation ====================================')
+    # create_patch(IOSTAR_IMAGE_VAL, IOSTAR_GT_VAL, PROCESSED_IOSTAR_DIR_IMAGE_VAL, patch_size, 2500)
+    #
+    #
+    #
+    # print('===================== splitting Test ====================================')
+    # create_patch(IOSTAR_IMAGE_TEST, IOSTAR_GT_TEST, PROCESSED_IOSTAR_DIR_IMAGE_TEST, patch_size, 2500)
+    #
+    #
+    # # STARE
+    # DATA_RAW_DIR = "./data/STARE/"
+    # # EXAMPLE_SLIDES_ZIP = DATA_RAW_DIR + "/example_slides.zip"
+    # IOSTAR_IMAGE = DATA_RAW_DIR + "/train"
+    # IOSTAR_GT = DATA_RAW_DIR + "/train_GT"
+    #
+    # PROCESSED_IOSTAR_DIR_IMAGE = "./random/STARE/train"
+    # PROCESSED_IOSTAR_DIR_GT = "./random/STARE/train_GT"
+    #
+    # IOSTAR_IMAGE_VAL = DATA_RAW_DIR + "/valid"
+    # IOSTAR_GT_VAL = DATA_RAW_DIR + "/valid_GT"
+    #
+    # PROCESSED_IOSTAR_DIR_IMAGE_VAL = "./random/STARE/valid"
+    # PROCESSED_IOSTAR_DIR_GT_VAL = "./random/STARE/valid_GT"
+    #
+    # IOSTAR_IMAGE_TEST = DATA_RAW_DIR + "/test"
+    # IOSTAR_GT_TEST = DATA_RAW_DIR + "/test_GT"
+    #
+    # PROCESSED_IOSTAR_DIR_IMAGE_TEST = "./random/STARE/test"
+    # PROCESSED_IOSTAR_DIR_GT_TEST = "./random/STARE/test_GT"
+    #
+    # print('.########  STARE  #######.')
+    # print('===================== splitting Train ====================================')
+    # create_patch(IOSTAR_IMAGE, IOSTAR_GT, PROCESSED_IOSTAR_DIR_IMAGE, patch_size, 2500)
+    #
+    #
+    # print('===================== splitting Validation ====================================')
+    # create_patch(IOSTAR_IMAGE_VAL, IOSTAR_GT_VAL, PROCESSED_IOSTAR_DIR_IMAGE_VAL, patch_size, 2500)
+    #
+    #
+    #
+    # print('===================== splitting Test ====================================')
+    # create_patch(IOSTAR_IMAGE_TEST, IOSTAR_GT_TEST, PROCESSED_IOSTAR_DIR_IMAGE_TEST, patch_size, 2500)
 
     # CHASEDB1
-    DATA_RAW_DIR = "./data/CHASEDB1/"
+    DATA_RAW_DIR = "./data/CHASEDB1"
     # EXAMPLE_SLIDES_ZIP = DATA_RAW_DIR + "/example_slides.zip"
     IOSTAR_IMAGE = DATA_RAW_DIR + "/train"
     IOSTAR_GT = DATA_RAW_DIR + "/train_GT"
@@ -262,7 +262,7 @@ if __name__ == "__main__":
     create_patch(IOSTAR_IMAGE_TEST, IOSTAR_GT_TEST, PROCESSED_IOSTAR_DIR_IMAGE_TEST, patch_size, 2500)
 
     # HRF
-    DATA_RAW_DIR = "./data/HRF/"
+    DATA_RAW_DIR = "./data/HRF"
     # EXAMPLE_SLIDES_ZIP = DATA_RAW_DIR + "/example_slides.zip"
     IOSTAR_IMAGE = DATA_RAW_DIR + "/train"
     IOSTAR_GT = DATA_RAW_DIR + "/train_GT"
