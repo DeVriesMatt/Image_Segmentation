@@ -1,7 +1,7 @@
 import os
 
 import torch
-from PIL import Image
+from PIL import Image, ImageDraw
 from torchvision import transforms
 import torchvision
 
@@ -55,26 +55,61 @@ from AG_Net.core.models import AG_Net
 #         SR = self.unet(images)
 
 
-test_loader = get_loader(image_path="test_patches/DRIVE/test/",
-                            image_size=48,
-                            batch_size=1,
-                            num_workers=0,
-                            mode='test',
-                            augmentation_prob=0.)
+# test_loader = get_loader(image_path="test_patches/DRIVE/test/",
+#                             image_size=48,
+#                             batch_size=1,
+#                             num_workers=0,
+#                             mode='test',
+#                             augmentation_prob=0.)
+#
+#
+# for i, (images, GT, image_path) in enumerate(test_loader):
+#     model = UNet(n_channels=1, n_classes=1)
+#     model.load_state_dict(torch.load('./models/UNet-80-0.0020-15-0.4000.pth', map_location=torch.device('cpu')))
+#     model.train(False)
+#     model.eval()
+#
+#     SR = model(images)
+#
+#     torchvision.utils.save_image(SR.data.cpu(), 'result/test_output/%s' % image_path)
 
 
 
-for i, (images, GT, image_path) in enumerate(test_loader):
-    model = UNet(n_channels=1, n_classes=1)
-    model.load_state_dict(torch.load('./models/UNet-80-0.0020-15-0.4000.pth'))
-    model.train(False)
-    model.eval()
+DATA_RAW_DIR = "./data/DRIVE/training"
+IOSTAR_IMAGE_TEST = DATA_RAW_DIR + "/test"
 
-    SR = model(images)
+image = Image.open(IOSTAR_IMAGE_TEST + "/00018.png")
+width, height = image.size
 
-    torchvision.utils.save_image(SR.data.cpu(),
-                                 os.path.join('result/test_output',
-                                              '{}.png'.format(image_path)))
+rounded_width = 48 * (width // 48)
+rounded_height = 48 * (height // 48)
+
+trimmed_data = image.crop((0, 0, rounded_width, rounded_height))
+trimmed_image = Image.new('RGB', (rounded_width, rounded_height), 255)
+trimmed_image.paste(trimmed_data)
+slide_image = trimmed_image
+slide_width, slide_height = slide_image.size
+
+new_image = Image.new('RGB', slide_image.size, 0)
+draw = ImageDraw.Draw(new_image)
+
+
+# Split and save
+patch_size = 48
+for i_x in range(slide_width//patch_size):
+    for i_y in range(slide_height//patch_size):
+        print(str(i_x).zfill(2))
+        print(str(i_y).zfill(2))
+
+        patch_image = Image.open("./result/test_output/00018_x" + str(i_x).zfill(2) +  "_y" + str(i_y).zfill(2) + ".png")
+        # black_image =
+        x = patch_size * i_x
+        y = patch_size * i_y
+        box = (x, y, x + patch_size, y + patch_size)
+        new_image.paste(patch_image, box)
+
+new_image.save("result/test_whole_image/00018.png")
+
 
 
 
