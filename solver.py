@@ -221,7 +221,7 @@ class Solver(object):
 		train_time = stop - start
 		state = self.unet.state_dict()
 		unet_path = os.path.join(self.model_path,
-								 '%s-%d-%.4f-%d-%.4f_preProcc_DiceFocalLoss_Dropout_DRIVE.pkl' % (self.model_type,
+								 '%s-%d-%.4f-%d-%.4f_preProcc_Combo_Dropout_DRIVE.pkl' % (self.model_type,
 															 self.num_epochs,
 															 self.lr,
 															 self.num_epochs_decay,

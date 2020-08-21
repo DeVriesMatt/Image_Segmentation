@@ -40,6 +40,7 @@ class conv_block(nn.Module):
             nn.ReLU(inplace=True),
             nn.Conv2d(ch_out, ch_out, kernel_size=3, stride=1, padding=1, bias=True),
             nn.BatchNorm2d(ch_out),
+            nn.Dropout2d(0.5, inplace=True),
             nn.ReLU(inplace=True)
         )
 
