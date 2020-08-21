@@ -16,33 +16,9 @@ import numpy as np
 from util import create_dir_if_not_exist
 
 
-DATA_RAW_DIR = "./data/DRIVE/training"
-# EXAMPLE_SLIDES_ZIP = DATA_RAW_DIR + "/example_slides.zip"
-IOSTAR_IMAGE = DATA_RAW_DIR + "/train"
-IOSTAR_GT = DATA_RAW_DIR + "/train_GT"
-
-PROCESSED_IOSTAR_DIR_IMAGE = "./random/DRIVE/train"
-PROCESSED_IOSTAR_DIR_GT = "./random/DRIVE/train_GT"
 
 
-IOSTAR_IMAGE_VAL = DATA_RAW_DIR + "/valid"
-IOSTAR_GT_VAL = DATA_RAW_DIR + "/valid_GT"
-
-PROCESSED_IOSTAR_DIR_IMAGE_VAL = "./random/DRIVE/valid"
-PROCESSED_IOSTAR_DIR_GT_VAL = "./random/DRIVE/valid_GT"
-
-
-IOSTAR_IMAGE_TEST = DATA_RAW_DIR + "/test"
-IOSTAR_GT_TEST = DATA_RAW_DIR + "/test_GT"
-
-PROCESSED_IOSTAR_DIR_IMAGE_TEST = "./random/DRIVE/test"
-PROCESSED_IOSTAR_DIR_GT_TEST = "./random/DRIVE/test_GT"
-
-images = sorted(os.listdir(IOSTAR_IMAGE))
-print(images)
-
-
-def create_patch(image_path, gt_path, patch_dir, patch_size, patch_per_image=5000, inside=True):
+def create_patch(image_path, gt_path, patch_dir, patch_size, patch_per_image, inside=True):
     # Create dirs
     responder_dir = patch_dir + "_GT"
     non_responder_dir = patch_dir
@@ -185,53 +161,135 @@ def is_patch_inside_FOV(x, y, img_w, img_h, patch_h):
 
 if __name__ == "__main__":
     patch_size = 48
+
+    DATA_RAW_DIR = "./data/DRIVE/training"
+    # EXAMPLE_SLIDES_ZIP = DATA_RAW_DIR + "/example_slides.zip"
+    IOSTAR_IMAGE = DATA_RAW_DIR + "/train"
+    IOSTAR_GT = DATA_RAW_DIR + "/train_GT"
+
+    PROCESSED_IOSTAR_DIR_IMAGE = "./random/DRIVE/train"
+    PROCESSED_IOSTAR_DIR_GT = "./random/DRIVE/train_GT"
+
+    IOSTAR_IMAGE_VAL = DATA_RAW_DIR + "/valid"
+    IOSTAR_GT_VAL = DATA_RAW_DIR + "/valid_GT"
+
+    PROCESSED_IOSTAR_DIR_IMAGE_VAL = "./random/DRIVE/valid"
+    PROCESSED_IOSTAR_DIR_GT_VAL = "./random/DRIVE/valid_GT"
+
+    IOSTAR_IMAGE_TEST = DATA_RAW_DIR + "/test"
+    IOSTAR_GT_TEST = DATA_RAW_DIR + "/test_GT"
+
+    PROCESSED_IOSTAR_DIR_IMAGE_TEST = "./random/DRIVE/test"
+    PROCESSED_IOSTAR_DIR_GT_TEST = "./random/DRIVE/test_GT"
+
+    print('.########  DRIVE  #######.')
     print('===================== splitting Train ====================================')
-    create_patch(IOSTAR_IMAGE, IOSTAR_GT, PROCESSED_IOSTAR_DIR_IMAGE, patch_size)
+    create_patch(IOSTAR_IMAGE, IOSTAR_GT, PROCESSED_IOSTAR_DIR_IMAGE, patch_size, 2500)
 
-
-    processed_GT = os.listdir("random/DRIVE/train_GT")
-    processed_IMAGE = os.listdir("random/DRIVE/train")
-
-    missing = []
-    nk = set(processed_IMAGE).intersection(processed_GT)
-    for x in processed_IMAGE:
-        if x in nk:
-            continue
-        missing.append(x)
-
-    print(len(missing))
-    print(missing)
 
     print('===================== splitting Validation ====================================')
-    create_patch(IOSTAR_IMAGE_VAL, IOSTAR_GT_VAL, PROCESSED_IOSTAR_DIR_IMAGE_VAL, patch_size)
+    create_patch(IOSTAR_IMAGE_VAL, IOSTAR_GT_VAL, PROCESSED_IOSTAR_DIR_IMAGE_VAL, patch_size, 2500)
 
 
-    processed_GT = os.listdir("random/DRIVE/valid_GT")
-    processed_IMAGE = os.listdir("random/DRIVE/valid")
-
-    missing = []
-    nk = set(processed_IMAGE).intersection(processed_GT)
-    for x in processed_IMAGE:
-        if x in nk:
-            continue
-        missing.append(x)
-
-    print(len(missing))
-    print(missing)
 
     print('===================== splitting Test ====================================')
-    create_patch(IOSTAR_IMAGE_TEST, IOSTAR_GT_TEST, PROCESSED_IOSTAR_DIR_IMAGE_TEST, patch_size)
+    create_patch(IOSTAR_IMAGE_TEST, IOSTAR_GT_TEST, PROCESSED_IOSTAR_DIR_IMAGE_TEST, patch_size, 2500)
 
 
-    processed_GT = os.listdir("random/DRIVE/test_GT")
-    processed_IMAGE = os.listdir("random/DRIVE/test")
+    # STARE
+    DATA_RAW_DIR = "./data/STARE/"
+    # EXAMPLE_SLIDES_ZIP = DATA_RAW_DIR + "/example_slides.zip"
+    IOSTAR_IMAGE = DATA_RAW_DIR + "/train"
+    IOSTAR_GT = DATA_RAW_DIR + "/train_GT"
 
-    missing = []
-    nk = set(processed_IMAGE).intersection(processed_GT)
-    for x in processed_IMAGE:
-        if x in nk:
-            continue
-        missing.append(x)
+    PROCESSED_IOSTAR_DIR_IMAGE = "./random/STARE/train"
+    PROCESSED_IOSTAR_DIR_GT = "./random/STARE/train_GT"
 
-    print(len(missing))
-    print(missing)
+    IOSTAR_IMAGE_VAL = DATA_RAW_DIR + "/valid"
+    IOSTAR_GT_VAL = DATA_RAW_DIR + "/valid_GT"
+
+    PROCESSED_IOSTAR_DIR_IMAGE_VAL = "./random/STARE/valid"
+    PROCESSED_IOSTAR_DIR_GT_VAL = "./random/STARE/valid_GT"
+
+    IOSTAR_IMAGE_TEST = DATA_RAW_DIR + "/test"
+    IOSTAR_GT_TEST = DATA_RAW_DIR + "/test_GT"
+
+    PROCESSED_IOSTAR_DIR_IMAGE_TEST = "./random/STARE/test"
+    PROCESSED_IOSTAR_DIR_GT_TEST = "./random/STARE/test_GT"
+
+    print('.########  STARE  #######.')
+    print('===================== splitting Train ====================================')
+    create_patch(IOSTAR_IMAGE, IOSTAR_GT, PROCESSED_IOSTAR_DIR_IMAGE, patch_size, 2500)
+
+
+    print('===================== splitting Validation ====================================')
+    create_patch(IOSTAR_IMAGE_VAL, IOSTAR_GT_VAL, PROCESSED_IOSTAR_DIR_IMAGE_VAL, patch_size, 2500)
+
+
+
+    print('===================== splitting Test ====================================')
+    create_patch(IOSTAR_IMAGE_TEST, IOSTAR_GT_TEST, PROCESSED_IOSTAR_DIR_IMAGE_TEST, patch_size, 2500)
+
+    # CHASEDB1
+    DATA_RAW_DIR = "./data/CHASEDB1/"
+    # EXAMPLE_SLIDES_ZIP = DATA_RAW_DIR + "/example_slides.zip"
+    IOSTAR_IMAGE = DATA_RAW_DIR + "/train"
+    IOSTAR_GT = DATA_RAW_DIR + "/train_GT"
+
+    PROCESSED_IOSTAR_DIR_IMAGE = "./random/CHASEDB1/train"
+    PROCESSED_IOSTAR_DIR_GT = "./random/CHASEDB1/train_GT"
+
+    IOSTAR_IMAGE_VAL = DATA_RAW_DIR + "/valid"
+    IOSTAR_GT_VAL = DATA_RAW_DIR + "/valid_GT"
+
+    PROCESSED_IOSTAR_DIR_IMAGE_VAL = "./random/CHASEDB1/valid"
+    PROCESSED_IOSTAR_DIR_GT_VAL = "./random/CHASEDB1/valid_GT"
+
+    IOSTAR_IMAGE_TEST = DATA_RAW_DIR + "/test"
+    IOSTAR_GT_TEST = DATA_RAW_DIR + "/test_GT"
+
+    PROCESSED_IOSTAR_DIR_IMAGE_TEST = "./random/CHASEDB1/test"
+    PROCESSED_IOSTAR_DIR_GT_TEST = "./random/CHASEDB1/test_GT"
+
+    print('.########  CHASEDB1  #######.')
+    print('===================== splitting Train ====================================')
+    create_patch(IOSTAR_IMAGE, IOSTAR_GT, PROCESSED_IOSTAR_DIR_IMAGE, patch_size, 2500)
+
+    print('===================== splitting Validation ====================================')
+    create_patch(IOSTAR_IMAGE_VAL, IOSTAR_GT_VAL, PROCESSED_IOSTAR_DIR_IMAGE_VAL, patch_size, 2500)
+
+    print('===================== splitting Test ====================================')
+    create_patch(IOSTAR_IMAGE_TEST, IOSTAR_GT_TEST, PROCESSED_IOSTAR_DIR_IMAGE_TEST, patch_size, 2500)
+
+    # HRF
+    DATA_RAW_DIR = "./data/HRF/"
+    # EXAMPLE_SLIDES_ZIP = DATA_RAW_DIR + "/example_slides.zip"
+    IOSTAR_IMAGE = DATA_RAW_DIR + "/train"
+    IOSTAR_GT = DATA_RAW_DIR + "/train_GT"
+
+    PROCESSED_IOSTAR_DIR_IMAGE = "./random/HRF/train"
+    PROCESSED_IOSTAR_DIR_GT = "./random/HRF/train_GT"
+
+    IOSTAR_IMAGE_VAL = DATA_RAW_DIR + "/valid"
+    IOSTAR_GT_VAL = DATA_RAW_DIR + "/valid_GT"
+
+    PROCESSED_IOSTAR_DIR_IMAGE_VAL = "./random/HRF/valid"
+    PROCESSED_IOSTAR_DIR_GT_VAL = "./random/HRF/valid_GT"
+
+    IOSTAR_IMAGE_TEST = DATA_RAW_DIR + "/test"
+    IOSTAR_GT_TEST = DATA_RAW_DIR + "/test_GT"
+
+    PROCESSED_IOSTAR_DIR_IMAGE_TEST = "./random/HRF/test"
+    PROCESSED_IOSTAR_DIR_GT_TEST = "./random/HRF/test_GT"
+
+    print('.########  HRF  #######.')
+    print('===================== splitting Train ====================================')
+    create_patch(IOSTAR_IMAGE, IOSTAR_GT, PROCESSED_IOSTAR_DIR_IMAGE, patch_size, 1600)
+
+    print('===================== splitting Validation ====================================')
+    create_patch(IOSTAR_IMAGE_VAL, IOSTAR_GT_VAL, PROCESSED_IOSTAR_DIR_IMAGE_VAL, patch_size, 1600)
+
+    print('===================== splitting Test ====================================')
+    create_patch(IOSTAR_IMAGE_TEST, IOSTAR_GT_TEST, PROCESSED_IOSTAR_DIR_IMAGE_TEST, patch_size, 1600)
+
+    print("DONE!!!")
