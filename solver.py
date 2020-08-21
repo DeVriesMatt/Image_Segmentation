@@ -54,7 +54,7 @@ class Solver(object):
 		self.optimizer = None
 		self.img_ch = config.img_ch
 		self.output_ch = config.output_ch
-		self.criterion = BCEDiceFocalLoss()  # ComboBCEDiceLoss()  # torch.nn.BCEWithLogitsLoss() #       BCELoss()  # TODO: Look at changing
+		self.criterion =  ComboBCEDiceLoss()  # torch.nn.BCEWithLogitsLoss() #       BCELoss()  # TODO: Look at changing
 		self.augmentation_prob = config.augmentation_prob
 		# self.image_size = config.
 
