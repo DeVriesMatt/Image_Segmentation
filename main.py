@@ -91,7 +91,7 @@ if __name__ == '__main__':
     parser.add_argument('--num_epochs_decay', type=int, default=8)
     parser.add_argument('--batch_size', type=int, default=128)
     parser.add_argument('--num_workers', type=int, default=8)
-    parser.add_argument('--lr', type=float, default=0.0002)       # Original LR 0.0002
+    parser.add_argument('--lr', type=float, default=0.002)       # Original LR 0.0002
     parser.add_argument('--beta1', type=float, default=0.9)        # momentum1 in Adam
     parser.add_argument('--beta2', type=float, default=0.999)      # momentum2 in Adam    
     parser.add_argument('--augmentation_prob', type=float, default=0.4)
