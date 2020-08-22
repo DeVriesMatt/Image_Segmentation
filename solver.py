@@ -227,7 +227,7 @@ class Solver(object):
             results = trial.evaluate(data_key=torchbearer.TEST_DATA)
             print("Test result:")
             print(results)
-        except:
+        except  (RuntimeError, OSError):
             state = self.unet.state_dict()
             unet_path = os.path.join(self.model_path,
                                      '%s-%d-%.4f-%d-%.4f_preProcc_Combo_Dropout_HRF.pkl' % (self.model_type,

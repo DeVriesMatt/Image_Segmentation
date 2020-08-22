@@ -130,7 +130,7 @@ class ComboBCEDiceLoss(nn.Module):
         Combination BinaryCrossEntropy (BCE) and Dice Loss with an optional running mean and loss weighing.
     """
 
-    def __init__(self, use_running_mean=False, bce_weight=1, dice_weight=2, eps=1e-6, gamma=0.9, combined_loss_only=True, **kwargs):
+    def __init__(self, use_running_mean=False, bce_weight=1, dice_weight=1, eps=1e-6, gamma=0.9, combined_loss_only=True, **kwargs):
         """
 
         :param use_running_mean: - bool (default: False) Whether to accumulate a running mean and add it to the loss with (1-gamma)
