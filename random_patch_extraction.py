@@ -90,9 +90,9 @@ def create_patch(image_path, gt_path, patch_dir, patch_size, patch_per_image, in
                 cropped_image_gt = Image.new('RGB', (patch_size, patch_size), 255)
                 cropped_image_gt.paste(cropped_data_gt)
 
-                if inside:
-                    if is_patch_inside_FOV(x_center, y_center, width, height, patch_size) == False:
-                        continue
+                # if inside:
+                #     if is_patch_inside_FOV(x_center, y_center, width, height, patch_size) == False:
+                #         continue
 
                 if np.mean(np.asarray(cropped_image_gt)) == 0:
                     continue
