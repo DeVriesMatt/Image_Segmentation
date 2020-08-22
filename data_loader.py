@@ -29,7 +29,7 @@ class ImageFolder(data.Dataset):
 
 		image_path = self.image_paths[index]
 		# filename = image_path.split('_')[-1][:-len(".jpg")]
-		filename = image_path[-17:]  # TODO: Change when using image patches because of naming convention: 17 for patch 9 for not patch
+		filename = image_path[-9:]  # TODO: Change when using image patches because of naming convention: 17 for patch 9 for not patch
 		GT_path = (self.GT_paths + filename)  # TODO: bug when crating images to name a space
 		# print(GT_path)
 
@@ -133,7 +133,7 @@ class ImageFolder(data.Dataset):
 
 		#
 
-		return image, GT, filename
+		return image, GT
 
 	def __len__(self):
 		"""Returns the total number of font files."""
