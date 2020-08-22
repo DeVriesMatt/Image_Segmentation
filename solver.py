@@ -188,7 +188,7 @@ class Solver(object):
         #
         # 	return loss
         #
-        stopping = EarlyStopping(monitor='val_acc', patience=5, mode='max')
+        # stopping = EarlyStopping(monitor='val_acc', patience=5, mode='max')
         scheduler = torch_scheduler.StepLR(self.num_epochs_decay, gamma=0.1)
         loss_plot_plan = os.path.join(self.result_path,
                                       'live_loss_plot%s-%d-%.4f-%d-%.4f.png' % (self.model_type,
@@ -196,7 +196,7 @@ class Solver(object):
                                                                                 self.lr,
                                                                                 self.num_epochs_decay,
                                                                                 self.augmentation_prob))
-        callbacks = [scheduler, stopping]
+        callbacks = [scheduler]
 
         # imaging.FromState(torchbearer.X).on_val().cache(16).make_grid().to_pyplot(),
         # 					 imaging.FromState(torchbearer.Y_TRUE).on_val().cache(16).make_grid().to_pyplot(),
