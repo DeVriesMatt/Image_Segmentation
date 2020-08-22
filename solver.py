@@ -17,6 +17,7 @@ from iter_net.iternet_model import Iternet, AttUIternet, R2UIternet
 import csv
 from torchsummary import summary
 from torchbearer import state_key
+from torchbearer.callbacks import EarlyStopping
 
 from AG_Net.core.models import AG_Net
 from losses import *
@@ -187,6 +188,7 @@ class Solver(object):
         #
         # 	return loss
         #
+        stopping = EarlyStopping(monitor='val_acc', patience=5, mode='max')
         scheduler = torch_scheduler.StepLR(self.num_epochs_decay, gamma=0.1)
         loss_plot_plan = os.path.join(self.result_path,
                                       'live_loss_plot%s-%d-%.4f-%d-%.4f.png' % (self.model_type,
@@ -194,7 +196,7 @@ class Solver(object):
                                                                                 self.lr,
                                                                                 self.num_epochs_decay,
                                                                                 self.augmentation_prob))
-        callbacks = [scheduler]
+        callbacks = [scheduler, stopping]
 
         # imaging.FromState(torchbearer.X).on_val().cache(16).make_grid().to_pyplot(),
         # 					 imaging.FromState(torchbearer.Y_TRUE).on_val().cache(16).make_grid().to_pyplot(),
@@ -216,7 +218,7 @@ class Solver(object):
             train_time = stop - start
             state = self.unet.state_dict()
             unet_path = os.path.join(self.model_path,
-                                     '%s-%d-%.4f-%d-%.4f_preProcc_Combo_Dropout_HRF.pkl' % (self.model_type,
+                                     '%s-%d-%.4f-%d-%.4f_preProcc_Combo_Dropout_CHASEDB1.pkl' % (self.model_type,
                                                                                                  self.num_epochs,
                                                                                                  self.lr,
                                                                                                  self.num_epochs_decay,
@@ -230,7 +232,7 @@ class Solver(object):
         except  (RuntimeError, OSError):
             state = self.unet.state_dict()
             unet_path = os.path.join(self.model_path,
-                                     '%s-%d-%.4f-%d-%.4f_preProcc_Combo_Dropout_HRF.pkl' % (self.model_type,
+                                     '%s-%d-%.4f-%d-%.4f_preProcc_Combo_Dropout_CHASEDB1.pkl' % (self.model_type,
                                                                                                  self.num_epochs,
                                                                                                  self.lr,
                                                                                                  self.num_epochs_decay,
