@@ -15,7 +15,7 @@ import numpy as np
 from util import create_dir_if_not_exist
 
 
-DATA_RAW_DIR = "./data/DRIVE/training"
+DATA_RAW_DIR = "./data/STARE"
 # EXAMPLE_SLIDES_ZIP = DATA_RAW_DIR + "/example_slides.zip"
 # Train
 # IOSTAR_IMAGE = DATA_RAW_DIR + "/train"
@@ -35,8 +35,8 @@ DATA_RAW_DIR = "./data/DRIVE/training"
 IOSTAR_IMAGE_TEST = DATA_RAW_DIR + "/test"
 IOSTAR_GT_TEST = DATA_RAW_DIR + "/test_GT"
 
-PROCESSED_IOSTAR_DIR_IMAGE_TEST = "./test_patches/DRIVE/test"
-PROCESSED_IOSTAR_DIR_GT_TEST = "./test_patches/DRIVE/test_GT"
+PROCESSED_IOSTAR_DIR_IMAGE_TEST = "./test_patches/STARE/test"
+PROCESSED_IOSTAR_DIR_GT_TEST = "./test_patches/STARE/test_GT"
 
 
 def create_patch(whole_slide_dir, patch_dir, patch_size):
@@ -84,11 +84,11 @@ def create_patch(whole_slide_dir, patch_dir, patch_size):
 
                     # Check which dataset is being used
                     if 'train' in patch_dir:
-                        processed_GT_file = os.listdir("processed/DRIVE/train_GT")
+                        processed_GT_file = os.listdir("test_patches/STARE/train_GT")
                     elif 'valid' in patch_dir:
-                        processed_GT_file = os.listdir("processed/DRIVE/valid_GT")
+                        processed_GT_file = os.listdir("test_patches/STARE/valid_GT")
                     else:
-                        processed_GT_file = os.listdir("processed/DRIVE/test_GT")
+                        processed_GT_file = os.listdir("test_patches/STARE/test_GT")
 
                     if "GT" in whole_slide_dir:
                         cropped_image.save(save_dir + "/" + file_well_num.zfill(5) + "_x" + str(i_x).zfill(2) + "_y" + str(i_y).zfill(2) + ".png")
@@ -158,8 +158,8 @@ if __name__ == "__main__":
     print('===================== splitting images ====================================')
     create_patch(IOSTAR_IMAGE_TEST, PROCESSED_IOSTAR_DIR_IMAGE_TEST, patch_size)
 
-    processed_GT = os.listdir("processed/DRIVE/test_GT")
-    processed_IMAGE = os.listdir("processed/DRIVE/test")
+    processed_GT = os.listdir("./test_patches/STARE/test_GT")
+    processed_IMAGE = os.listdir("./test_patches/STARE/test")
 
     missing = []
     nk = set(processed_IMAGE).intersection(processed_GT)

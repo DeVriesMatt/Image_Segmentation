@@ -56,8 +56,8 @@ from torchvision import transforms as T
 #         image_tensor = torch.Tensor(image_arr).unsqueeze(0)
 #         SR = self.unet(images)
 
-
-# test_loader = get_loader(image_path="test_patches/DRIVE/test/",
+# Gets the predicted patches
+# test_loader = get_loader(image_path="test_patches/STARE/test/",
 #                             image_size=48,
 #                             batch_size=1,
 #                             num_workers=0,
@@ -67,58 +67,58 @@ from torchvision import transforms as T
 #
 # for i, (images, GT, image_path) in enumerate(test_loader):
 #     model = UNet(n_channels=1, n_classes=1)
-#     model.load_state_dict(torch.load('./models/Unet-80-0.0020-15-0.4000.pth', map_location=torch.device('cpu')))
+#     model.load_state_dict(torch.load('./models/UNet-20-0.0020-8-0.6904_preProcc_Combo_Dropout_STARE.pkl', map_location=torch.device('cpu')))
 #     model.train(False)
 #     model.eval()
 #
 #     SR = model(images)
 #
-#     torchvision.utils.save_image(SR.data.cpu(), 'result/test_output_iternet/%s' % image_path)
-#
-#
-#
-# DATA_RAW_DIR = "./data/DRIVE/training"
-# IOSTAR_IMAGE_TEST = DATA_RAW_DIR + "/test"
-#
-# image = Image.open(IOSTAR_IMAGE_TEST + "/00020.png")
-# width, height = image.size
-#
-# rounded_width = 48 * (width // 48)
-# rounded_height = 48 * (height // 48)
-#
-# trimmed_data = image.crop((0, 0, rounded_width, rounded_height))
-# trimmed_image = Image.new('RGB', (rounded_width, rounded_height), 255)
-# trimmed_image.paste(trimmed_data)
-# slide_image = trimmed_image
-# slide_width, slide_height = slide_image.size
-#
-# new_image = Image.new('RGB', slide_image.size, 0)
-# new_true_GT = Image.new('RGB', slide_image.size, 0)
-#
-#
-# # Split and save
-# patch_size = 48
-# for i_x in range(slide_width//patch_size):
-#     for i_y in range(slide_height//patch_size):
-#         print(str(i_x).zfill(2))
-#         print(str(i_y).zfill(2))
-#
-#         patch_image = Image.open("./result/test_output_iternet/00020_x" + str(i_x).zfill(2) +  "_y" + str(i_y).zfill(2) + ".png")
-#         true_GT = Image.open("./test_patches/DRIVE/test_GT/00020_x" + str(i_x).zfill(2) +  "_y" + str(i_y).zfill(2) + ".png")
-#         # black_image =
-#         x = patch_size * i_x
-#         y = patch_size * i_y
-#         box = (x, y, x + patch_size, y + patch_size)
-#         new_image.paste(patch_image, box)
-#         new_true_GT.paste(true_GT, box)
-#
-# new_image.save("result/test_whole_image/00020.png")
-# new_true_GT.save("result/test_whole_image_true/00020.png")
+#     torchvision.utils.save_image(SR.data.cpu(), 'result/test_output/STARE/%s' % image_path)
+
+
+
+DATA_RAW_DIR = "./data/STARE"
+IOSTAR_IMAGE_TEST = DATA_RAW_DIR + "/test"
+
+image = Image.open(IOSTAR_IMAGE_TEST + "/00019.ppm")
+width, height = image.size
+
+rounded_width = 48 * (width // 48)
+rounded_height = 48 * (height // 48)
+
+trimmed_data = image.crop((0, 0, rounded_width, rounded_height))
+trimmed_image = Image.new('RGB', (rounded_width, rounded_height), 255)
+trimmed_image.paste(trimmed_data)
+slide_image = trimmed_image
+slide_width, slide_height = slide_image.size
+
+new_image = Image.new('RGB', slide_image.size, 0)
+new_true_GT = Image.new('RGB', slide_image.size, 0)
+
+
+# Split and save
+patch_size = 48
+for i_x in range(slide_width//patch_size):
+    for i_y in range(slide_height//patch_size):
+        print(str(i_x).zfill(2))
+        print(str(i_y).zfill(2))
+
+        patch_image = Image.open("./result/test_output/STARE/00019_x" + str(i_x).zfill(2) +  "_y" + str(i_y).zfill(2) + ".png")
+        true_GT = Image.open("./test_patches/STARE/test_GT/00019_x" + str(i_x).zfill(2) +  "_y" + str(i_y).zfill(2) + ".png")
+        # black_image =
+        x = patch_size * i_x
+        y = patch_size * i_y
+        box = (x, y, x + patch_size, y + patch_size)
+        new_image.paste(patch_image, box)
+        new_true_GT.paste(true_GT, box)
+
+new_image.save("result/test_whole_image/STARE/00019.png")
+new_true_GT.save("result/test_whole_image_true/STARE/00019.png")
 
 
 from evaluation import *
-SR = Image.open("/Users/mattdevries/Desktop/result/U_Net/U_Net_valid_150_SR.png")
-GT = Image.open("/Users/mattdevries/Desktop/result/U_Net/U_Net_valid_150_GT.png")
+SR = Image.open("result/test_whole_image/STARE/00019.png")
+GT = Image.open("result/test_whole_image_true/STARE/00019.png")
 
 Transform = []
 Transform.append(T.ToTensor())
