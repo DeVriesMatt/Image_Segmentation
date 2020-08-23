@@ -218,7 +218,7 @@ class Solver(object):
             train_time = stop - start
             state = self.unet.state_dict()
             unet_path = os.path.join(self.model_path,
-                                     '%s-%d-%.4f-%d-%.4f_preProcc_Combo_Dropout_CHASEDB1.pkl' % (self.model_type,
+                                     '%s-%d-%.4f-%d-%.4f_preProcc_Combo_Dropout_STARE.pkl' % (self.model_type,
                                                                                                  self.num_epochs,
                                                                                                  self.lr,
                                                                                                  self.num_epochs_decay,
@@ -229,10 +229,10 @@ class Solver(object):
             results = trial.evaluate(data_key=torchbearer.TEST_DATA)
             print("Test result:")
             print(results)
-        except  (RuntimeError, OSError):
+        except (RuntimeError, OSError):
             state = self.unet.state_dict()
             unet_path = os.path.join(self.model_path,
-                                     '%s-%d-%.4f-%d-%.4f_preProcc_Combo_Dropout_CHASEDB1.pkl' % (self.model_type,
+                                     '%s-%d-%.4f-%d-%.4f_preProcc_Combo_Dropout_STARE.pkl' % (self.model_type,
                                                                                                  self.num_epochs,
                                                                                                  self.lr,
                                                                                                  self.num_epochs_decay,
