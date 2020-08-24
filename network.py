@@ -40,7 +40,7 @@ class conv_block(nn.Module):
             nn.ReLU(inplace=True),
             nn.Conv2d(ch_out, ch_out, kernel_size=3, stride=1, padding=1, bias=True),
             nn.BatchNorm2d(ch_out),
-            nn.Dropout2d(0.5, inplace=True),
+            # nn.Dropout2d(0.5, inplace=True),
             nn.ReLU(inplace=True)
         )
 
@@ -72,7 +72,7 @@ class Recurrent_block(nn.Module):
         self.conv = nn.Sequential(
             nn.Conv2d(ch_out, ch_out, kernel_size=3, stride=1, padding=1, bias=True),
             nn.BatchNorm2d(ch_out),
-            nn.Dropout2d(0.5),
+            # nn.Dropout2d(0.5),
             nn.ReLU(inplace=True)
         )
 
@@ -107,7 +107,7 @@ class single_conv(nn.Module):
         self.conv = nn.Sequential(
             nn.Conv2d(ch_in, ch_out, kernel_size=3, stride=1, padding=1, bias=True),
             nn.BatchNorm2d(ch_out),
-            nn.Dropout2d(0.5),
+            # nn.Dropout2d(0.5),
             nn.ReLU(inplace=True)
         )
 
@@ -564,7 +564,7 @@ class DoubleConv(nn.Module):
             nn.ReLU(inplace=True),
             nn.Conv2d(mid_channels, out_channels, kernel_size=3, padding=1),
             nn.BatchNorm2d(out_channels),
-            nn.Dropout2d(0.5,inplace=True),
+            # nn.Dropout2d(0.5,inplace=True),
             nn.ReLU(inplace=True)
         )
 
