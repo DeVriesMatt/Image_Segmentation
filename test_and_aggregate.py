@@ -66,16 +66,18 @@ test_loader = get_loader(image_path="test_patches/STARE/train/",
 
 
 for i, (images, GT, image_path) in enumerate(test_loader):
-    model = UNet(1, 1)
-    model.load_state_dict(torch.load('./models/STARE/UNet-50-0.0020-10-0.4000_Index_BCE_NoDropout_STARE.pkl',
+    model = Iternet(1, 1)
+    model.load_state_dict(torch.load('./models/STARE/Iternet-50-0.0020-10-0.5230_Index_Combo_Dropout_STAREIndex.pkl',
                                      map_location=torch.device('cpu')))
     model.train(False)
     model.eval()
 
     SR = model(images)
 
-    torchvision.utils.save_image(SR.data.cpu(), 'result/test_output/STARE/UNet/%s' % image_path)
+    torchvision.utils.save_image(SR.data.cpu(), 'result/test_output/STARE/Iternet/%s' % image_path)
 
+
+results = []
 for i in range(1,15):
     DATA_RAW_DIR = "./data/STARE"
     IOSTAR_IMAGE_TEST = DATA_RAW_DIR + "/train_GT"
@@ -103,7 +105,7 @@ for i in range(1,15):
             # print(str(i_y).zfill(2))
 
             patch_image = Image.open(
-                "./result/test_output/STARE/UNet/" + str(i).zfill(5) + "_x" + str(i_x).zfill(2) + "_y" + str(i_y).zfill(2) + ".png")
+                "./result/test_output/STARE/Iternet/" + str(i).zfill(5) + "_x" + str(i_x).zfill(2) + "_y" + str(i_y).zfill(2) + ".png")
             true_GT = Image.open(
                 "./test_patches/STARE/train_GT/" + str(i).zfill(5) + "_x" + str(i_x).zfill(2) + "_y" + str(i_y).zfill(2) + ".png")
             # black_image =
@@ -113,12 +115,12 @@ for i in range(1,15):
             new_image.paste(patch_image, box)
             new_true_GT.paste(true_GT, box)
 
-    new_image.save("result/test_whole_image/STARE/UNet/" + str(i).zfill(5) + ".png")
+    new_image.save("result/test_whole_image/STARE/Iternet/" + str(i).zfill(5) + ".png")
     new_true_GT.save("result/test_whole_image_true/STARE/" + str(i).zfill(5) + ".png")
 
     from evaluation import *
 
-    SR = Image.open("result/test_whole_image/STARE/UNet/" + str(i).zfill(5) + ".png")
+    SR = Image.open("result/test_whole_image/STARE/Iternet/" + str(i).zfill(5) + ".png")
     GT = Image.open("result/test_whole_image_true/STARE/" + str(i).zfill(5) + ".png")
 
     Transform = []
@@ -130,11 +132,23 @@ for i in range(1,15):
     GT = Transform(GT)
     print(torch.max(GT[0]))
 
+    acc = get_accuracy(SR[0], GT[0])
+    sensitivity = get_sensitivity(SR[0], GT[0])
+    specificity = get_specificity(SR[0], GT[0])
+    dice = get_DC(SR[0], GT[0])
+    jaccard = get_JS(SR[0], GT[0])
+    results.append({'acc': acc,
+                    'sensitivity': sensitivity,
+                    'specificity': specificity,
+                    'dice': dice,
+                    'jaccard': jaccard})
     print(get_accuracy(SR[0], GT[0]))
     print(get_sensitivity(SR[0], GT[0]))
     print(get_specificity(SR[0], GT[0]))
     print(get_DC(SR[0], GT[0]))
     print(get_JS(SR[0], GT[0]))
+
+print(results)
 
 # DATA_RAW_DIR = "./data/CHASEDB1"
 # IOSTAR_IMAGE_TEST = DATA_RAW_DIR + "/train"
