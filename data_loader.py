@@ -29,7 +29,7 @@ class ImageFolder(data.Dataset):
 
 		image_path = self.image_paths[index]
 		# filename = image_path.split('_')[-1][:-len(".jpg")]
-		filename = image_path[-9:]  # TODO: Change when using image patches because of naming convention: 17 for patch 9 for not patch
+		filename = image_path[-17:]  # TODO: Change when using image patches because of naming convention: 17 for patch 9 for not patch
 		GT_path = (self.GT_paths + filename)  # TODO: bug when crating images to name a space
 		# print(GT_path)
 
@@ -119,8 +119,8 @@ class ImageFolder(data.Dataset):
 		Transform.append(T.ToTensor())
 		Transform = T.Compose(Transform)
 		image = Transform(image)
-		Norm_ = T.Normalize((0.7810, 0.3966, 0.2238), (0.0361, 0.0341, 0.0180))  # This is for DRIVE
-		image = Norm_(image)
+		# Norm_ = T.Normalize((0.7810, 0.3966, 0.2238), (0.0361, 0.0341, 0.0180))  # This is for DRIVE
+		# image = Norm_(image)
 		# print(image.shape)
 		# TODO: green channel only
 		image = image[1:2, :, :]

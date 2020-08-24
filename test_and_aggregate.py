@@ -57,83 +57,143 @@ from torchvision import transforms as T
 #         SR = self.unet(images)
 
 # Gets the predicted patches
-# test_loader = get_loader(image_path="test_patches/STARE/test/",
-#                             image_size=48,
-#                             batch_size=1,
-#                             num_workers=0,
-#                             mode='test',
-#                             augmentation_prob=0.)
+test_loader = get_loader(image_path="test_patches/STARE/train/",
+                            image_size=48,
+                            batch_size=1,
+                            num_workers=0,
+                            mode='test',
+                            augmentation_prob=0.)
+
+
+for i, (images, GT, image_path) in enumerate(test_loader):
+    model = UNet(1, 1)
+    model.load_state_dict(torch.load('./models/STARE/UNet-50-0.0020-10-0.4000_Index_BCE_NoDropout_STARE.pkl',
+                                     map_location=torch.device('cpu')))
+    model.train(False)
+    model.eval()
+
+    SR = model(images)
+
+    torchvision.utils.save_image(SR.data.cpu(), 'result/test_output/STARE/UNet/%s' % image_path)
+
+for i in range(1,15):
+    DATA_RAW_DIR = "./data/STARE"
+    IOSTAR_IMAGE_TEST = DATA_RAW_DIR + "/train_GT"
+
+    image = Image.open(IOSTAR_IMAGE_TEST + "/" + str(i).zfill(5) + ".ppm")
+    width, height = image.size
+
+    rounded_width = 48 * (width // 48)
+    rounded_height = 48 * (height // 48)
+
+    trimmed_data = image.crop((0, 0, rounded_width, rounded_height))
+    trimmed_image = Image.new('RGB', (rounded_width, rounded_height), 255)
+    trimmed_image.paste(trimmed_data)
+    slide_image = trimmed_image
+    slide_width, slide_height = slide_image.size
+
+    new_image = Image.new('RGB', slide_image.size, 0)
+    new_true_GT = Image.new('RGB', slide_image.size, 0)
+
+    # Split and save
+    patch_size = 48
+    for i_x in range(slide_width // patch_size):
+        for i_y in range(slide_height // patch_size):
+            # print(str(i_x).zfill(2))
+            # print(str(i_y).zfill(2))
+
+            patch_image = Image.open(
+                "./result/test_output/STARE/UNet/" + str(i).zfill(5) + "_x" + str(i_x).zfill(2) + "_y" + str(i_y).zfill(2) + ".png")
+            true_GT = Image.open(
+                "./test_patches/STARE/train_GT/" + str(i).zfill(5) + "_x" + str(i_x).zfill(2) + "_y" + str(i_y).zfill(2) + ".png")
+            # black_image =
+            x = patch_size * i_x
+            y = patch_size * i_y
+            box = (x, y, x + patch_size, y + patch_size)
+            new_image.paste(patch_image, box)
+            new_true_GT.paste(true_GT, box)
+
+    new_image.save("result/test_whole_image/STARE/UNet/" + str(i).zfill(5) + ".png")
+    new_true_GT.save("result/test_whole_image_true/STARE/" + str(i).zfill(5) + ".png")
+
+    from evaluation import *
+
+    SR = Image.open("result/test_whole_image/STARE/UNet/" + str(i).zfill(5) + ".png")
+    GT = Image.open("result/test_whole_image_true/STARE/" + str(i).zfill(5) + ".png")
+
+    Transform = []
+    Transform.append(T.ToTensor())
+    Transform = T.Compose(Transform)
+    SR = Transform(SR)
+    # print(torch.max(SR[3]))
+
+    GT = Transform(GT)
+    print(torch.max(GT[0]))
+
+    print(get_accuracy(SR[0], GT[0]))
+    print(get_sensitivity(SR[0], GT[0]))
+    print(get_specificity(SR[0], GT[0]))
+    print(get_DC(SR[0], GT[0]))
+    print(get_JS(SR[0], GT[0]))
+
+# DATA_RAW_DIR = "./data/CHASEDB1"
+# IOSTAR_IMAGE_TEST = DATA_RAW_DIR + "/train"
+#
+# image = Image.open(IOSTAR_IMAGE_TEST + "/00001.jpg")
+# width, height = image.size
+#
+# rounded_width = 48 * (width // 48)
+# rounded_height = 48 * (height // 48)
+#
+# trimmed_data = image.crop((0, 0, rounded_width, rounded_height))
+# trimmed_image = Image.new('RGB', (rounded_width, rounded_height), 255)
+# trimmed_image.paste(trimmed_data)
+# slide_image = trimmed_image
+# slide_width, slide_height = slide_image.size
+#
+# new_image = Image.new('RGB', slide_image.size, 0)
+# new_true_GT = Image.new('RGB', slide_image.size, 0)
 #
 #
-# for i, (images, GT, image_path) in enumerate(test_loader):
-#     model = UNet(n_channels=1, n_classes=1)
-#     model.load_state_dict(torch.load('./models/UNet-20-0.0020-8-0.6904_preProcc_Combo_Dropout_STARE.pkl', map_location=torch.device('cpu')))
-#     model.train(False)
-#     model.eval()
+# # Split and save
+# patch_size = 48
+# for i_x in range(slide_width//patch_size):
+#     for i_y in range(slide_height//patch_size):
+#         print(str(i_x).zfill(2))
+#         print(str(i_y).zfill(2))
 #
-#     SR = model(images)
+#         patch_image = Image.open("./result/test_output/CHASEDB1/AttUNet/00001_x" + str(i_x).zfill(2) +  "_y" + str(i_y).zfill(2) + ".png")
+#         true_GT = Image.open("./test_patches/CHASEDB1/train_GT/00001_x" + str(i_x).zfill(2) +  "_y" + str(i_y).zfill(2) + ".png")
+#         # black_image =
+#         x = patch_size * i_x
+#         y = patch_size * i_y
+#         box = (x, y, x + patch_size, y + patch_size)
+#         new_image.paste(patch_image, box)
+#         new_true_GT.paste(true_GT, box)
 #
-#     torchvision.utils.save_image(SR.data.cpu(), 'result/test_output/STARE/%s' % image_path)
-
-
-
-DATA_RAW_DIR = "./data/STARE"
-IOSTAR_IMAGE_TEST = DATA_RAW_DIR + "/test"
-
-image = Image.open(IOSTAR_IMAGE_TEST + "/00019.ppm")
-width, height = image.size
-
-rounded_width = 48 * (width // 48)
-rounded_height = 48 * (height // 48)
-
-trimmed_data = image.crop((0, 0, rounded_width, rounded_height))
-trimmed_image = Image.new('RGB', (rounded_width, rounded_height), 255)
-trimmed_image.paste(trimmed_data)
-slide_image = trimmed_image
-slide_width, slide_height = slide_image.size
-
-new_image = Image.new('RGB', slide_image.size, 0)
-new_true_GT = Image.new('RGB', slide_image.size, 0)
-
-
-# Split and save
-patch_size = 48
-for i_x in range(slide_width//patch_size):
-    for i_y in range(slide_height//patch_size):
-        print(str(i_x).zfill(2))
-        print(str(i_y).zfill(2))
-
-        patch_image = Image.open("./result/test_output/STARE/00019_x" + str(i_x).zfill(2) +  "_y" + str(i_y).zfill(2) + ".png")
-        true_GT = Image.open("./test_patches/STARE/test_GT/00019_x" + str(i_x).zfill(2) +  "_y" + str(i_y).zfill(2) + ".png")
-        # black_image =
-        x = patch_size * i_x
-        y = patch_size * i_y
-        box = (x, y, x + patch_size, y + patch_size)
-        new_image.paste(patch_image, box)
-        new_true_GT.paste(true_GT, box)
-
-new_image.save("result/test_whole_image/STARE/00019.png")
-new_true_GT.save("result/test_whole_image_true/STARE/00019.png")
-
-
-from evaluation import *
-SR = Image.open("result/test_whole_image/STARE/00019.png")
-GT = Image.open("result/test_whole_image_true/STARE/00019.png")
-
-Transform = []
-Transform.append(T.ToTensor())
-Transform = T.Compose(Transform)
-SR = Transform(SR)
-# print(torch.max(SR[3]))
-
-GT = Transform(GT)
-print(torch.max(GT[0]))
-
-print(get_accuracy(SR[0], GT[0]))
-print(get_sensitivity(SR[0], GT[0]))
-print(get_specificity(SR[0], GT[0]))
-print(get_DC(SR[0], GT[0]))
-print(get_JS(SR[0], GT[0]))
+# new_image.save("result/test_whole_image/CHASEDB1/AttUNet/00001.png")
+# new_true_GT.save("result/test_whole_image_true/CHASEDB1/00001.png")
+#
+#
+# from evaluation import *
+#
+# SR = Image.open("result/test_whole_image/CHASEDB1/AttUNet/00001.png")
+# GT = Image.open("result/test_whole_image_true/CHASEDB1/00001.png")
+#
+# Transform = []
+# Transform.append(T.ToTensor())
+# Transform = T.Compose(Transform)
+# SR = Transform(SR)
+# # print(torch.max(SR[3]))
+#
+# GT = Transform(GT)
+# print(torch.max(GT[0]))
+#
+# print(get_accuracy(SR[0], GT[0]))
+# print(get_sensitivity(SR[0], GT[0]))
+# print(get_specificity(SR[0], GT[0]))
+# print(get_DC(SR[0], GT[0]))
+# print(get_JS(SR[0], GT[0]))
 
 
 
