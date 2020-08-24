@@ -150,7 +150,7 @@ if __name__ == "__main__":
     # print(missing)
 
 
-    Test
+    # Test
     print("Splitting the test data")
     print('===================== splitting GT ====================================')
     create_patch(IOSTAR_GT_TEST, PROCESSED_IOSTAR_DIR_GT_TEST, patch_size)
